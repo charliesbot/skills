@@ -32,6 +32,10 @@ Skills live at `skills/<name>/SKILL.md`. Add `references/`, `scripts/`, `assets/
 
 Keep the main skill focused on the actions and decisions needed every time. Place branch-specific detail behind clear pointers. Give each instruction one authoritative home rather than copying it between files.
 
+## Prose
+
+No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`, `CHANGELOG.md`, ADRs, changesets, and code comments). Where a sentence reaches for one, rewrite it with a comma, colon, period, parentheses, or conjunction, whichever the sentence actually wants. Never do a blind character substitution.
+
 ## Artifacts and Handoffs
 
 Skills may build on artifacts produced by other skills, but they do not form a required pipeline. Each artifact should have one job and remain useful even when no later skill runs.
