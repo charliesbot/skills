@@ -22,6 +22,8 @@ Add or change a skill when recurring friction interrupts the creative loop. A us
 - preserves reasoning worth remembering; or
 - shortens the path to usable or shipped work.
 
+Treat each skill's frontmatter `description` as its routing contract. Front-load what the skill does and name each distinct situation that should trigger it, using one clear trigger per behavior branch rather than lists of synonyms.
+
 Each skill may support a different part of the loop: exploring, capturing, building, resuming, or shipping. A skill does not need to cover the entire journey.
 
 Build for the workflow that exists. Avoid configurable machinery for hypothetical users. If following a skill repeatedly feels like administrative work, simplify or remove it.
