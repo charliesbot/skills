@@ -2,11 +2,11 @@
 name: to-design-doc
 description: >-
   Create or update a design document when the user asks to turn a discussion
-  into a design doc, write down a project design, or invokes $to-design-doc.
-  Use for feature, behavior, subsystem, or architectural design that captures
-  what the project should do and why. Do not use for ordinary brainstorming,
-  project-level PRDs, external research or reference docs, current architecture
-  docs, implementation plans, or task tracking.
+  into a design doc or write down a project design. Use for feature, behavior,
+  subsystem, or architectural design that captures what the project should do
+  and why. Do not use for ordinary brainstorming, project-level PRDs, external
+  research or reference docs, current architecture docs, implementation plans,
+  or task tracking.
 ---
 
 # To Design Doc
@@ -14,19 +14,22 @@ description: >-
 Create one readable save point for the design the user asked to preserve. The
 document should let the user resume tomorrow or much later without reconstructing
 the conversation. Keep the momentum of a side project; do not turn capture into
-an interview or specification process.
+an interview or specification process. Match the document's depth to the
+complexity of the design question, not the length of the conversation.
 
 ## Establish Context
 
-Read the repository instructions, `docs/PRD.md` when present, relevant current
-documents, relevant research, and the smallest code surface needed to avoid
-contradicting the project. Work without requiring any setup skill or repository
-configuration.
+Read applicable `AGENTS.md` and `CLAUDE.md` files when present, `docs/PRD.md`
+when present, relevant current documents, relevant research, and the smallest
+code surface needed to avoid contradicting the project. Work without requiring
+any setup skill or repository configuration.
 
 When the central design depends on an unresolved external fact, verify that fact
 before drafting. When the fact would not change the design, preserve it as an
 open question instead. Supporting research stays inside the requested design
-document; create exactly one primary artifact per invocation.
+document. The design document is the one primary artifact per invocation.
+Approved PRD changes, agent-instruction pointers, cross-links, and archive moves
+are supporting edits, not additional primary artifacts.
 
 ## Choose the Save Point
 
@@ -51,11 +54,13 @@ Show one compact recommendation before editing:
 
 ```text
 Recommendation: Create, update, archive, or skip
-Path: docs/design/<descriptive-name>.md
+Path: docs/design/<descriptive-name>.md, or none for skip
 Center of gravity: <the design question>
 Related changes: <cross-links, PRD update, archive move, or AGENTS pointer>
 Open questions: <important unknowns, or none>
 ```
+
+Use `Path: none` for a skip recommendation.
 
 Wait for approval once. Ask an additional question only when different answers
 would produce fundamentally different central designs. Otherwise preserve the
@@ -66,15 +71,19 @@ When the design conflicts with `docs/PRD.md`, show the conflict and the proposed
 PRD change in the approval preview. Approval covers both edits. Do not silently
 change the project north star.
 
-`docs/ARCHITECTURE.md` describes the current system. A proposed architectural
-change belongs in a focused design document; the implementer updates the current
-architecture after the code makes the design true.
+When present, `docs/ARCHITECTURE.md` describes the current system. A proposed
+architectural change belongs in a focused design document; the implementer
+updates the current architecture after the code makes the design true.
 
 ## Write the Document
 
 Write new design documents to `docs/design/` with lowercase kebab-case names.
 Use [the canonical template](assets/DESIGN_DOC.md). Existing documents keep
 their paths unless the approved change explicitly archives them.
+
+Name a companion document for its own center of gravity. Reuse a domain prefix
+when it improves recognition, such as `highlight-anchors.md` and
+`highlight-appearance.md`.
 
 The required spine is:
 
@@ -89,6 +98,10 @@ use the date it first enters this convention. Add `Open questions`, `Links`, or
 another focused section only when it improves this document. `Links` can contain
 project documents, official documentation, repositories, issues, or other useful
 sources.
+
+Keep an existing design document as a clean snapshot of the current design.
+Integrate changes into the relevant sections and rely on Git for history instead
+of appending dated update sections or changelogs.
 
 Present one solution directly when one solution is enough. When multiple
 solutions remain useful to compare, use descriptive option headings and mark
@@ -122,8 +135,9 @@ or implementation work would otherwise risk violating the document's durable
 decisions.
 
 When an approved design fully replaces an older design, move the older document
-to `docs/archive/design/`, preserve its filename and content, and add this notice
-below its title:
+to `docs/archive/design/`, creating that directory when the first approved
+archive move needs it. Preserve the archived document's filename and content,
+and add this notice below its title:
 
 ```markdown
 > **Archived:** Superseded by [Replacement](../../design/replacement.md).
