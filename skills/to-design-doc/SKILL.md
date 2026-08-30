@@ -16,9 +16,13 @@ complexity of the design question, not the length of the conversation.
 ## Establish Context
 
 Read applicable `AGENTS.md` and `CLAUDE.md` files when present, `docs/PRD.md`
-when present, relevant current documents, relevant research, and the smallest
-code surface needed to avoid contradicting the project. Work without requiring
-any setup skill or repository configuration.
+and `docs/ARCHITECTURE.md` when present, relevant design documents and research,
+and the smallest code surface needed to avoid contradicting the project. Work
+without requiring any setup skill or repository configuration.
+
+When present, `docs/ARCHITECTURE.md` describes the current system. A proposed
+architectural change belongs in a focused design document; the implementer
+updates the current architecture after the code makes the design true.
 
 When the central design depends on an unresolved external fact, verify that fact
 before drafting. When the fact would not change the design, preserve it as an
@@ -66,10 +70,6 @@ continue immediately.
 When the design conflicts with `docs/PRD.md`, show the conflict and the proposed
 PRD change in the approval preview. Approval covers both edits. Do not silently
 change the project north star.
-
-When present, `docs/ARCHITECTURE.md` describes the current system. A proposed
-architectural change belongs in a focused design document; the implementer
-updates the current architecture after the code makes the design true.
 
 ## Write the Document
 
