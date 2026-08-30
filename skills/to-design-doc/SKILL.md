@@ -1,12 +1,8 @@
 ---
 name: to-design-doc
 description: >-
-  Create or update a design document when the user asks to turn a discussion
-  into a design doc or write down a project design. Use for feature, behavior,
-  subsystem, or architectural design that captures what the project should do
-  and why. Do not use for ordinary brainstorming, project-level PRDs, external
-  research or reference docs, current architecture docs, implementation plans,
-  or task tracking.
+  Create or update a resumable design document when the user explicitly
+  requests one for a feature, behavior, subsystem, or architectural change.
 ---
 
 # To Design Doc
@@ -85,19 +81,9 @@ Name a companion document for its own center of gravity. Reuse a domain prefix
 when it improves recognition, such as `highlight-anchors.md` and
 `highlight-appearance.md`.
 
-The required spine is:
-
-- a descriptive title;
-- the original creation `Date` in `YYYY-MM-DD` format;
-- a `TL;DR` of two to four sentences; and
-- `Design`, with descriptive subsections when useful.
-
 Keep the original date during ordinary updates. When an existing design doc has
 no date, recover its initial date from Git history. If no history is available,
-use the date it first enters this convention. Add `Open questions`, `Links`, or
-another focused section only when it improves this document. `Links` can contain
-project documents, official documentation, repositories, issues, or other useful
-sources.
+use the date it first enters this convention.
 
 Keep an existing design document as a clean snapshot of the current design.
 Integrate changes into the relevant sections and rely on Git for history instead
@@ -119,9 +105,7 @@ Mark no option when the discussion has no current preference. Preserve rejected
 alternatives only when their reasoning still explains a non-obvious choice.
 
 State a boundary beside the relevant design when omitting it would create a
-likely misreading. Avoid routine goal and non-goal sections. Include diagrams,
-contracts, schemas, state machines, or small snippets when they preserve a
-decision more precisely than prose.
+likely misreading. Avoid routine goal and non-goal sections.
 
 Keep implementation phases, slices, task lists, file inventories, success
 criteria, and testing plans out of the design document. Do not add status,
@@ -148,8 +132,8 @@ document with a separate center of gravity does not supersede its related doc.
 
 ## Finish
 
-Read the finished document as a future resumption point. It is complete when the
-current design, important reasoning, unresolved questions, and useful
-relationships are clear without the conversation. Remove empty sections and
-filler. Stop after the approved document and supporting links; do not create an
-issue or implementation plan.
+The save point is complete when the document answers the approved center of
+gravity, every approved related change is applied, and every important unknown
+is resolved or preserved. Remove empty sections and filler. Stop after the
+approved document and supporting links; do not create an issue or implementation
+plan.
