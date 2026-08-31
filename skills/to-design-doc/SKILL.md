@@ -119,12 +119,12 @@ or implementation work would otherwise risk violating the document's durable
 decisions.
 
 When an approved design fully replaces an older design, move the older document
-to `docs/archive/design/`, creating that directory when the first approved
-archive move needs it. Preserve the archived document's filename and content,
-and add this notice below its title:
+to `docs/archive/`, creating that directory when the first approved archive move
+needs it. Preserve the archived document's filename and content, and add this
+notice below its title:
 
 ```markdown
-> **Archived:** Superseded by [Replacement](../../design/replacement.md).
+> **Archived:** Superseded by [Replacement](../design/replacement.md).
 ```
 
 Update repository links and agent pointers during the same change. A companion
