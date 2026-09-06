@@ -3,10 +3,7 @@
 ## Hard Rules
 
 - For non-trivial changes, draft a plan first and wait for explicit approval before writing code. Trivial fixes (typos, one-line bug fixes, renames) can proceed directly.
-- Treat the primary checkout as shared. For non-trivial changes, create a dedicated worktree with `wt switch --create <branch>` after approval; reuse one only when it is clearly assigned to the current task.
-- Use one worktree per independent PR or per complete PR stack. Never create a separate worktree for each layer of the same stack.
-- Use Worktrunk exclusively to create, switch, list, and remove worktrees. Never use native `git worktree` commands or manually delete worktree directories.
-- If Worktrunk is unavailable or fails, stop and notify the user instead of falling back.
+- Work in the current checkout by default. Create a worktree only when explicitly requested by the user, not from inferred concurrent activity.
 - Trivial fixes can be committed and pushed to `main` only when explicitly asked.
 - Do not perform opportunistic refactors. If adjacent cleanup is useful but not required, log it as follow-up work or propose a separate cleanup PR.
 - Approval to implement a non-trivial change includes approval to commit, push, and open its ready-for-review PR after applicable verification passes. For stacks, each layer requires approved scope and applicable verification. Open drafts only when explicitly asked.
@@ -21,12 +18,19 @@
 Use Git for local version control, Worktrunk for worktree management, and `gh` for GitHub and pull request operations.
 
 - Use `git status`, `git diff`, `git log`, and `git show` for inspection.
-- Use `wt list` before writable work. Use `wt switch --create <branch>` for a new task and `wt switch <branch>` only for an existing worktree assigned to that task.
+- Before editing or switching branches, inspect the current branch and uncommitted changes. Preserve existing changes and ask if they conflict with the requested task. Never switch away from an unrelated active task automatically.
+- For trivial work, stay on `main` when already there. For non-trivial work, create a feature branch in the current checkout with `git switch -c <branch>` after plan approval. Reuse an existing feature branch only when it belongs to the same task.
 - Keep commits scoped to the approved change.
-- Use ordinary PRs by default. Use a stack only when two or more approved slices form a strict dependency chain and work must continue before lower PRs merge; use separate worktrees and PRs for independent changes.
-- For a stack, create one worktree for the bottom branch, run `gh stack init <bottom-branch>`, then use `gh stack add <branch>` and stack navigation inside that worktree.
+- Use ordinary PRs by default. Use a stack only when two or more approved slices form a strict dependency chain and work must continue before lower PRs merge; use separate branches and PRs for independent changes.
+- For a stack, start on the bottom branch, run `gh stack init <bottom-branch>`, then use `gh stack add <branch>` and stack navigation in the same checkout.
 - Run stack commands non-interactively: `gh stack submit --auto --open`, `gh stack view --json`, and `gh stack merge <stack-or-pr> --yes --squash`. Never merge a stacked PR with `gh pr merge`.
-- Continue merging through GitHub; do not use `wt merge`. After merging, synchronize stacks with `gh stack sync --prune`, then remove finished worktrees with `wt remove`.
+- Continue merging through GitHub; do not use `wt merge`. After merging, synchronize stacks with `gh stack sync --prune`.
+
+### User-Requested Worktrees
+
+- Use Worktrunk exclusively to create, switch, list, and remove worktrees. Never use native `git worktree` commands or manually delete worktree directories. If Worktrunk is unavailable or fails, stop and notify the user instead of falling back.
+- Run `wt list` before worktree operations. Use `wt switch --create <branch>` for a new task and `wt switch <branch>` only for an existing worktree assigned to that task.
+- Use one worktree per independent PR or per complete PR stack, not one per stack layer. Remove finished worktrees with `wt remove` after merging.
 
 ## Priorities
 
