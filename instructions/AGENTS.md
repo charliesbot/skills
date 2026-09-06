@@ -34,7 +34,7 @@ Use Git for local version control, Worktrunk for worktree management, and `gh` f
 
 ## Priorities
 
-correctness > simplicity > performance > readability
+Prioritize correctness, readability, and coherent architecture from the start. Choose patterns and abstractions by their concrete benefits relative to their maintenance cost. Simplicity means less complexity to understand, not necessarily fewer files or layers. Meet security and performance requirements. Add structure and flexibility to serve current requirements or established project conventions, not hypothetical future needs.
 
 ## Communication
 
