@@ -1,6 +1,6 @@
 # Repository Purpose
 
-This is charliesbot's personal skills repository. Its skills sustain creative momentum and continuity across side projects. They help the repository owner start new ideas, iterate on existing work, resume without reconstructing context, and ship.
+This is charliesbot's personal repository for agent skills and shared instructions. They sustain creative momentum and continuity across side projects. They help the repository owner start new ideas, iterate on existing work, resume without reconstructing context, and ship.
 
 Optimize for the repository owner's workflow. The repository may be public, but broad applicability is not a goal.
 
@@ -28,11 +28,11 @@ Each skill may support a different part of the loop: exploring, capturing, build
 
 Build for the workflow that exists. Avoid configurable machinery for hypothetical users. If following a skill repeatedly feels like administrative work, simplify or remove it.
 
-## Structure
+## Instruction Ownership
 
-Skills live at `skills/<name>/SKILL.md`. Add `references/`, `scripts/`, `assets/`, or `evals/` only when the skill needs them.
+Keep repository-specific guidance in the root `AGENTS.md` and reusable cross-project defaults in `instructions/`. Use skills for task-specific workflows so their procedures load when needed rather than occupying always-loaded instructions.
 
-Keep the main skill focused on the actions and decisions needed every time. Place branch-specific detail behind clear pointers. Give each instruction one authoritative home rather than copying it between files.
+Give each instruction one authoritative home. When moving detail into a separate document, make its pointer state when to read it.
 
 ## Prose
 
