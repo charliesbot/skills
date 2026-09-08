@@ -1,7 +1,6 @@
 ---
 name: to-tickets
-description: Publish an agreed implementation breakdown as resumable GitHub issues.
-disable-model-invocation: true
+description: Publish an agreed implementation breakdown as resumable GitHub issues. Use only when the user explicitly requests ticket creation.
 ---
 
 # To Tickets

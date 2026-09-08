@@ -1,7 +1,6 @@
 ---
 name: setup-charliesbot-skills
-description: Set up Charlie's project-documentation conventions in a repository.
-disable-model-invocation: true
+description: Set up Charlie's project-documentation conventions in a repository. Use only when the user explicitly requests this setup.
 ---
 
 # Setup Charliesbot Skills
