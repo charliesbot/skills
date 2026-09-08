@@ -1,5 +1,5 @@
 interface:
   display_name: "Setup Charliesbot Skills"
-  short_description: "Set up project documentation conventions"
+  short_description: "Set up documentation and task tracking"
 policy:
   allow_implicit_invocation: false

@@ -14,62 +14,86 @@ Read the supplied plan, conversation, issue, or design reference and applicable
 project instructions. Inspect relevant code to check that the agreement still
 matches the current system.
 
-When implementation planning is missing or materially stale, use
-`planning-and-task-breakdown` to establish or revise it with the user. Reuse an
-adequate approved plan without repeating its interview. Publication preparation
-does not independently redesign tasks.
+When implementation planning or tracking boundaries are missing or materially
+stale, use `planning-and-task-breakdown` to establish or revise them with the user.
+Reuse an adequate approved plan without repeating its interview. Publication
+preparation does not independently redesign tasks.
 
-This step is complete when the task definitions, dependencies, and PR grouping
-are agreed and their source context is available.
+This step is complete when the task definitions, dependencies, issue grouping,
+and PR grouping are agreed and their source context is available.
 
 ## Prepare the Issue Set
 
-Confirm the target repository from project context and GitHub information using
-`gh`. Ask only if the destination remains ambiguous. Inspect related existing
-issues, including closed matches, before proposing new ones.
+Resolve the GitHub repository from the explicit request, project tracking
+instructions, or repository context, in that order. Confirm it using `gh`.
+Ask when ambiguous; setup is not required. This invocation does not persist a
+new project default. Inspect related existing issues, including closed matches,
+before proposing new ones.
 
-Prepare one issue per agreed task. Preserve the plan's goal, implementation
-approach, rationale, and definition of done, plus:
+Prepare the agreed work issues, preserving fully defined internal task sections.
+Each task keeps its goal and exclusions, implementation approach, rationale, and
+definition of done. Preserve approved technical contracts, snippets, and diagrams,
+not just outcome summaries. Also record:
 
 - **Source:** durable links to relevant design or planning artifacts.
-- **Dependencies:** the tasks that actually block this task, or none.
-- **PR grouping:** which tasks belong to the same intended delivery.
+- **Blocked by:** actual prerequisite issues or internal tasks, or none.
+- **PR grouping:** the intended delivery and shared branch context when known.
 
-Link shared design reasoning instead of copying it. When the plan exists only
-in conversation, put the task-specific agreement in the issue so a new session
-does not need the chat. Preserve shared decisions without a durable home in one
-relevant issue and link that context from the others; a context link alone is
-not a blocking dependency. A separate plan file or parent issue is not required.
+For multiple work issues, prepare or explicitly reuse a parent containing the
+delivery goal, source-design link, shared decisions, and a linked breakdown.
+Give every work issue a parent link. A single work issue needs no new parent;
+preserve an existing source-parent relationship when applicable.
 
-An issue must make clear what can be implemented and how completion is verified.
-Multiple issues can share one PR; issue boundaries do not authorize separate PRs.
+Link shared design reasoning instead of copying it. If it exists only in chat,
+preserve shared implementation decisions in the parent, or the single work issue.
+Each task's body and links must let a fresh agent implement without reconstructing
+the conversation. A local plan index is unnecessary.
 
-This step is complete when every proposed issue can be resumed from its body and
-links, and existing matches are identified rather than silently duplicated.
+The parent groups the effort, blockers order tasks, and PR grouping identifies
+what ships together. Keep internal dependencies as task references; do not create
+extra issues just to represent them as native links. Future ideas outside the
+approved delivery stay in source documents.
+
+This step is complete when every task is implementation-ready from its body and
+links, existing matches are identified, and the entry issue exposes the breakdown.
 
 ## Approve and Publish
 
-Show the target repository, proposed issue bodies, dependencies, PR grouping,
-and any existing issues to reuse. State that approval publishes this issue set.
-Obtain one publication approval, reusing already settled planning decisions.
-Material changes to existing issues require inclusion in that preview.
+Show the target repository, complete proposed issue bodies, parent grouping,
+blockers, PR grouping, and existing issues to reuse. Include changes to existing
+parents and relationships in the preview. Obtain one publication approval,
+reusing already settled planning decisions.
 
-Use `gh` to publish approved new issues in dependency order so blockers can be
-referenced by real URLs. Record dependency and PR-group links in the issue bodies;
-complete forward links after the relevant issues exist. Leave unrelated issues,
-labels, and project configuration unchanged.
+Use `gh` to create the parent if needed, then work issues in dependency order.
+Attach work issues as native sub-issues and add native blocking relationships
+between issues, separately from parent membership. Keep readable parent,
+breakdown, and blocker links in bodies. Complete forward links after IDs exist.
 
-Track each successful issue creation. If publication fails or a response is
-uncertain, reconcile the repository's actual issues before retrying. Stop and
-report partial results when the failure cannot be resolved safely. Preserve
-successful creations rather than deleting them or replaying the entire batch.
+For relationship operations, use `gh api` with GitHub's
+[sub-issue endpoints](https://docs.github.com/en/rest/issues/sub-issues) and
+[dependency endpoints](https://docs.github.com/en/rest/issues/issue-dependencies).
+Read the relevant endpoint parameters before mutation: issue numbers used in
+paths differ from database IDs required in relationship bodies. Inspect existing
+relationships first. Reparenting needs explicit approval; do not force it.
+
+If a native relationship cannot be established, report that publication as
+incomplete instead of silently treating a body link as equivalent. Preserve
+successful creations. After an uncertain response or failure, reconcile actual
+issues and relationships before retrying rather than replaying the batch.
+
+Apply only previewed changes. Leave unrelated issues, labels, and project
+configuration unchanged. Publishing never closes a parent or source issue.
 
 ## Finish
 
-Read back the published issues and verify their agreed content and links.
-Return their URLs and any remaining publication work.
+Read back issue content, parent/sub-issue relationships, blocking relationships,
+and body links. Check the approved set is published or accounted for by reused
+issues, and report any incomplete publication.
 
-Completion means the approved issue set is published or explicitly accounted
-for by reused issues, with correct dependencies and PR grouping. Stop here:
-ticket approval does not start implementation, create PRs, close source issues,
-or mark the source design implemented.
+Return the entry issue and published or reused work-issue links. To identify the
+next actionable task, use the resume procedure in `planning-and-task-breakdown`;
+report unverified prerequisites rather than inventing readiness. This does not
+reopen approved design decisions or authorize implementation.
+
+Stop after publication and the next-task recommendation. Do not create PRs or
+mark the source design implemented.

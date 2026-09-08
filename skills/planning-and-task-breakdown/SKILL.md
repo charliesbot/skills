@@ -3,7 +3,8 @@ name: planning-and-task-breakdown
 description: >-
   Collaboratively plan non-trivial implementation and break it into bounded
   tasks. Use before non-trivial coding, when asked to turn a design into an
-  implementation plan, or when an existing plan needs revision.
+  implementation plan, when an existing plan needs revision, or when asked
+  to resume tracked work or select the next task.
 ---
 
 # Planning and Task Breakdown
@@ -12,6 +13,32 @@ Turn the requested change into an implementation agreement the user can review
 before coding. Work from a conversation, design, issue, or clear requirements;
 a separate spec is not a prerequisite. The output is a conversational plan,
 unless the user explicitly requests a durable artifact.
+
+## Resume Tracked Work
+
+When asked to resume or select a next task, resolve the GitHub repository from
+the explicit request, project tracking instructions, or repository context.
+Ask if the destination is ambiguous. Read a supplied work issue and its parent.
+Without an issue reference, discover open efforts and ask the user to choose
+when several are plausible.
+
+Read the effort's goal, shared decisions, linked design, work issues, and
+internal task sections. Inspect comments, completion evidence, blockers,
+related PRs, and relevant branch state before deciding what remains. Follow
+the approved agreement rather than starting a new planning interview.
+
+Recommend one unfinished task whose prerequisites are verified, stating its
+outcome and required branch or PR context. A prerequisite verified on a shared
+PR branch need not be merged, but its implementation must be available in the
+proposed working context. An open issue may already have work underway; a
+closed issue alone does not prove its acceptance criteria were met. Report
+unknown prerequisite state as unverified rather than ready. If no task is
+actionable, report the blocker or that no unfinished task remains.
+
+For a next-task request, stop at the recommendation. For a request to implement,
+continue under the project's approval and execution gates, using the steps below
+only to resolve missing or changed planning. Material contradictions return to
+the user rather than silently replacing the agreement.
 
 ## Ground the Goal
 
@@ -34,10 +61,16 @@ boundaries, important interfaces, state or data flow, and patterns that material
 affect implementation or review. Recommend an approach with its rationale.
 Compare alternatives only when the choice matters, not to fill a template.
 
-Resolve questions that would change scope or architecture before final approval.
-Exact private methods and file inventories can remain implementation details.
-Use snippets or diagrams when they express a non-obvious decision more clearly
-than prose.
+Explain how the solution works technically, including integration points and
+failure behavior that materially affect it. Use signatures, focused snippets,
+schemas, data-flow diagrams, or state diagrams where they make decisions clearer
+than prose. Choose the representation for the decision, not to fill sections.
+
+Resolve implementation-shaping unknowns before approval. If a necessary fact
+cannot be established, name the investigation needed and keep affected work
+unready. The next agent should implement, not choose an architecture, invent an
+important contract, or resolve ambiguous behavior. Private helper names and
+ordinary code organization remain implementation details.
 
 This step is complete when the user has had an opportunity to shape the approach
 and no implementation-blocking design choice remains hidden inside a task.
@@ -64,11 +97,31 @@ when further decomposition adds no useful boundary.
 
 Choose boundaries by responsibility and verifiable outcome. File counts, line
 counts, and context-window estimates are forecasts, not splitting thresholds.
-Keep code-sensitive details flexible while settling consequential implementation
-decisions for every task.
+Settle consequential implementation decisions for every task while leaving
+ordinary code details to the implementer.
 
 This step is complete when every task has a bounded outcome and finish line,
 and its dependencies and PR grouping are explicit.
+
+## Choose Tracking Boundaries
+
+Agree on the tracking structure without publishing it. Keep internal checkpoints
+as fully defined task sections inside one work issue. Give a work unit its own
+issue when it should be resumed and tracked independently, not merely because
+it is a coding step.
+
+For several related work issues, use a parent holding the delivery goal, source
+design link, shared decisions, and breakdown. A single work issue needs no parent.
+Link shared decisions instead of repeating them in each task. Preserve important
+snippets and diagrams as part of the implementation agreement.
+
+Parent membership groups an effort; blockers order execution; PR grouping
+defines what ships together. Several issues may share one coherent PR. Neither
+issue count nor PR size should erase task detail or force artificial boundaries.
+Keep future possibilities outside the approved delivery's tickets.
+
+This step is complete when each task's home is clear and every work issue is an
+independently resumable unit with the context needed to implement it.
 
 ## Check Coverage and Approve
 
@@ -81,9 +134,10 @@ in a plan proportional to the work. Discuss material gaps with the user, then
 obtain approval under the project's planning gate. Reuse prior approvals for
 unchanged decisions.
 
-The plan is complete when approved, coverage is accounted for, and no unresolved
-decision would materially change scope or architecture. During later
-implementation, ordinary code details remain the implementer's responsibility;
+The plan is complete when approved, coverage is accounted for, and each task
+with its linked context is implementation-ready, with no unresolved
+implementation-shaping decision. During later implementation, ordinary code
+details remain the implementer's responsibility;
 material changes return through the project's escalation gate.
 
 Stop at planning when planning is the requested output. This skill creates no
