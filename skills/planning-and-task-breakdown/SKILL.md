@@ -4,7 +4,7 @@ description: >-
   Collaboratively plan non-trivial implementation and break it into bounded
   tasks. Use before non-trivial coding, when asked to turn a design into an
   implementation plan, when an existing plan needs revision, or when asked
-  to resume tracked work or select the next task.
+  to resume tracked work, select the next task, or record task progress.
 ---
 
 # Planning and Task Breakdown
@@ -39,6 +39,41 @@ For a next-task request, stop at the recommendation. For a request to implement,
 continue under the project's approval and execution gates, using the steps below
 only to resolve missing or changed planning. Material contradictions return to
 the user rather than silently replacing the agreement.
+
+When implementing tracked tasks, apply Record Task Progress after each completed
+task and before handing off unfinished work.
+
+## Record Task Progress
+
+For authorized implementation of a tracked task or an explicit request to record
+its progress, keep its issue checklist current using `gh`. A request only to
+plan or recommend the next task leaves it unchanged.
+
+For a progress-only request, identify the target issue and task from the request
+or project tracking context, asking if ambiguous. Read its definition of done
+and inspect the referenced work and verification evidence before updating it.
+Report missing evidence rather than inferring completion from the request alone.
+
+Check a task only after its definition of done is met and applicable verification
+has passed. Add a concise issue comment identifying the task, verification results,
+and the commit or PR reference containing the work when available. If publishing
+gates prevent that reference yet, record the current branch and that the code
+reference is pending, then add it after authorized publication. A checked task
+means its definition of done is met, not that its code has been published.
+
+Leave partial or blocked tasks unchecked. Before handoff, record completed work,
+remaining work, blockers, and the relevant branch or PR context so the next
+session can resume. Keep the task agreement intact rather than replacing it
+with a progress summary.
+
+Read the latest issue before editing, preserve unrelated changes and other task
+states, and read back the update. If an update fails or its result is uncertain,
+reconcile the actual issue before retrying and report any unsaved progress.
+Task completion does not itself authorize closing an issue or parent, or imply
+that a shared PR has merged.
+
+For a progress-only request, stop after read-back and report what was recorded
+or remains unverified. Do not continue into planning or implementation.
 
 ## Ground the Goal
 

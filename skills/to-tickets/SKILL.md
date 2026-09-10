@@ -33,7 +33,13 @@ before proposing new ones.
 Prepare the agreed work issues, preserving fully defined internal task sections.
 Each task keeps its goal and exclusions, implementation approach, rationale, and
 definition of done. Preserve approved technical contracts, snippets, and diagrams,
-not just outcome summaries. Also record:
+not just outcome summaries. Give each internal task a Markdown checkbox (`- [ ]`)
+linked to its detailed task section. New unfinished tasks start unchecked;
+preserve verified progress when reusing issues.
+
+Include an implementation handoff in each work issue: when implementing its
+tasks, use the Record Task Progress procedure in `planning-and-task-breakdown`
+to keep this checklist current. Also record:
 
 - **Source:** durable links to relevant design or planning artifacts.
 - **Blocked by:** actual prerequisite issues or internal tasks, or none.
