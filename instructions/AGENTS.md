@@ -19,7 +19,7 @@ Use Git for local version control, Worktrunk for worktree management, and `gh` f
 
 ### PR Structure and Stacks
 
-- Prefer one complete, coherent PR. Split only when every PR is independently useful, production-quality, and consistent with the intended final architecture. If all later PRs were cancelled, each earlier PR must still be worth keeping.
+- Prefer one complete, coherent PR. Split only at natural boundaries where each PR leaves a working system and makes a lasting contribution to the intended design. If splitting requires temporary architecture or extra complexity solely to make an intermediate PR stand alone, keep the change together. Size alone does not justify splitting.
 - Use ordinary PRs by default. Use a stack only when two or more approved slices form a strict dependency chain and work must continue before lower PRs merge; use separate branches and PRs for independent changes.
 - For a stack, start on the bottom branch, run `gh stack init <bottom-branch>`, then use `gh stack add <branch>` and stack navigation in the same checkout.
 - Run stack commands non-interactively: `gh stack submit --auto --open`, `gh stack view --json`, and `gh stack merge <stack-or-pr> --yes --squash`. Never merge a stacked PR with `gh pr merge`.
@@ -80,11 +80,11 @@ Trivial work can proceed directly. For non-trivial work, follow Plan and Impleme
 
 ### Plan
 
-Before non-trivial implementation, inspect the relevant code and present a concise plan covering intended behavior, approach, likely scope, risks or open questions, and verification. Keep the plan proportional to the change and wait for approval once.
+For every coding change, establish the goal, implementation approach, important rationale, and definition of done. Scale the detail to risk. Trivial work needs neither a formal template nor additional approval.
 
-Expected files and estimated size are forecasts, not hard boundaries. Use snippets or diagrams only when they clarify a non-obvious interface or architectural decision.
+Before non-trivial implementation, use `planning-and-task-breakdown` to agree on the implementation and task boundaries with the user. Wait for approval once. The approved plan is the lightweight spec.
 
-The approved plan is the lightweight spec. Create a separate feature spec only when the feature is ambiguous, high-risk, product-defining, or likely to span multiple sessions.
+Planning alone does not authorize implementation. When the user requests only planning or ticket publication, stop at that output. Use `to-tickets` only on explicit request to preserve agreed tasks as GitHub issues.
 
 ### Implement
 

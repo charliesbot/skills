@@ -1,0 +1,5 @@
+interface:
+  display_name: "To Tickets"
+  short_description: "Publish approved plans as GitHub issues"
+policy:
+  allow_implicit_invocation: false
