@@ -105,6 +105,10 @@ and its dependencies and PR grouping are explicit.
 
 ## Choose Tracking Boundaries
 
+When ticket publication is requested or the effort is already tracked, apply
+this section. Otherwise, keep conversational task boundaries and proceed to
+Check Coverage and Approve without designing an issue structure.
+
 Agree on the tracking structure without publishing it. Keep internal checkpoints
 as fully defined task sections inside one work issue. Give a work unit its own
 issue when it should be resumed and tracked independently, not merely because
