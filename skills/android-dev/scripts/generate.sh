@@ -272,12 +272,17 @@ package $BASE_PACKAGE.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.expressiveLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+// Material 3 Expressive theme (needs material3 1.5.0-alpha or later).
+// Design guidance: the android-design skill.
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -287,9 +292,13 @@ fun AppTheme(
     val colorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     } else {
-        if (darkTheme) androidx.compose.material3.darkColorScheme() else androidx.compose.material3.lightColorScheme()
+        if (darkTheme) darkColorScheme() else expressiveLightColorScheme()
     }
-    MaterialTheme(colorScheme = colorScheme, content = content)
+    MaterialExpressiveTheme(
+        colorScheme = colorScheme,
+        motionScheme = MotionScheme.expressive(),
+        content = content,
+    )
 }
 EOF
 
@@ -470,12 +479,23 @@ EOF
 package $BASE_PACKAGE.wear.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.MotionScheme
+import androidx.wear.compose.material3.dynamicColorScheme
 
+// Wear's MaterialTheme defaults to the standard motion scheme; opt into expressive.
+// Design guidance: the android-design skill (references/wear-os.md).
 @Composable
 fun WearAppTheme(content: @Composable () -> Unit) {
-    // Wear OS 6+ supports dynamic color via the system theme.
-    MaterialTheme(content = content)
+    val context = LocalContext.current
+    MaterialTheme(
+        // Dynamic color comes from the watch face; null when unavailable.
+        colorScheme = dynamicColorScheme(context) ?: ColorScheme(),
+        motionScheme = MotionScheme.expressive(),
+        content = content,
+    )
 }
 EOF
 

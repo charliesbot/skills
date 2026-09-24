@@ -283,7 +283,7 @@ apply the changes semantically.
 # --- Add to gradle/libs.versions.toml under [versions] ---
 # Use the latest stable versions compatible with your Kotlin and AGP versions.
 # Check Maven Central / KSP release page if these need updating.
-compileSdk = "36"
+compileSdk = "37"
 minSdk = "24"
 wearMinSdk = "30"
 room = "2.8.2"
@@ -295,6 +295,12 @@ wearCompose = "<look-up-latest-wear-compose-version>"
 kotlinxSerialization = "<look-up-latest-kotlinx-serialization-version>"
 ksp = "<look-up-latest-ksp-matching-your-kotlin-version>"  # e.g. "2.3.20-2.0.4" — verify on https://github.com/google/ksp/releases
 spotless = "7.2.1"
+# Material 3 Expressive needs material3 1.5.0-alpha or later; the Compose BOM pins
+# stable 1.4.0. Use the newest 1.5.x from
+# https://dl.google.com/dl/android/maven2/androidx/compose/material3/material3/maven-metadata.xml
+material3 = "<look-up-latest-1.5.x-material3-version>"
+# Current material3 1.5.0 alphas and Wear Compose 1.7 require compileSdk 37 and
+# AGP 9.1+; raise androidGradlePlugin and the Gradle wrapper version AGP asks for.
 # Add when generating widgets (see references/TOOLING.md):
 # glanceAppwidget = "<latest>"
 # glanceWear = "<latest>"
@@ -314,6 +320,8 @@ androidx-lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecy
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+# Pin the compose-material3 alias (used by generated modules) to the material3 version so it overrides the BOM:
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 # Widget libraries (add when running generate.sh widget — see references/TOOLING.md):
 # androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glanceAppwidget" }
 # androidx-glance-wear = { module = "androidx.glance.wear:wear", version.ref = "glanceWear" }

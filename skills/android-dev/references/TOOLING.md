@@ -53,7 +53,7 @@ AGP 9.0+ bundles Kotlin support, so `libs.plugins.kotlin.android` is **not** app
 - `libs.compose.bom`, `libs.compose.runtime`, `libs.compose.ui`, `libs.compose.foundation`, `libs.compose.ui.tooling.preview`, `libs.compose.ui.tooling`
 - Navigation 3: `libs.androidx.navigation3.runtime`, `libs.androidx.navigation3.ui`, `libs.kotlinx.serialization.json`
 - Optional destination-scoped ViewModels: `libs.androidx.lifecycle.viewmodel.navigation3`
-- `:app`: `libs.compose.material3`
+- `:app`: `libs.compose.material3`, pinned to the `material3` catalog version (1.5.0-alpha or later) instead of the BOM, because the Expressive theme and components aren't in stable 1.4.0
 - `:wear`: `libs.wear.compose.material3`, `libs.wear.compose.foundation`, `libs.wear.compose.navigation3`, `libs.wear.tooling.preview`
 
 **Feature module deps** (same for `app/` and `wear/` submodules):
