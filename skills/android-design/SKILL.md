@@ -3,13 +3,13 @@ name: android-design
 description: >
   Material 3 Expressive design judgment for Android apps in Jetpack Compose, distilled from Google's
   guidelines, UX research, and I/O talks. Use when designing, building, or reviewing Android or Wear OS
-  screens; choosing components; setting up a theme (color, type, shape, motion); or when a Compose UI
+  screens or home screen widgets; choosing components; setting up a theme (color, type, shape, motion); or when a Compose UI
   looks generic and needs hierarchy, emphasis, or polish.
 ---
 
 # Android Design
 
-How Google designs Android apps with Material 3 Expressive, translated into decisions and Compose code. Expressive is not a separate design language: it is Material 3 plus opt-in APIs, components, and design tactics that Google calls an "expansion pack." The guidelines, research, and API names here come from m3.material.io, the Wear OS design guide, six Google I/O and Android Developers talks, and androidx sources checked in September 2026.
+How Google designs Android apps with Material 3 Expressive, translated into decisions and Compose code. Expressive is not a separate design language: it is Material 3 plus opt-in APIs, components, and design tactics that Google calls an "expansion pack." The guidelines, research, and API names here come from m3.material.io, Android's design guides (developer.android.com/design/ui), the Wear OS design guide, six Google I/O and Android Developers talks, and androidx sources checked in September 2026.
 
 The through-line: **a screen feels designed when emphasis is spent deliberately.** Rank what the screen is for, then spend size, color contrast, shape, type, containment, and motion on the top goal, less on the next, and almost none on the rest. Stock Material code gives every element equal weight, which is why it looks like a template.
 
@@ -249,6 +249,26 @@ Google's brand examples keep behavior intact and add one subtle touch: a custom 
 - Content descriptions state purpose ("Voice search"), not appearance, and never the role.
 - Sentence case, second person, no periods on single-sentence labels, contractions, exclamation points only for real celebrations.
 
+## 12. Android conventions
+
+Material says how components look; Android's own design guides say how an app behaves on the platform. Generated code often carries iOS habits instead:
+
+| iOS habit | Android |
+| --- | --- |
+| Centered navigation title | Left-aligned title; large titles are flexible app bars that collapse on scroll |
+| Back chevron, "Cancel" and "Done" text buttons | Up arrow for hierarchy (system back handles "back"); a close icon to dismiss; the confirming action in the full-screen dialog's app bar |
+| Action sheets | Bottom sheets |
+| Segmented control switching views | Tabs; a connected button group only for choosing an option |
+| Table rows with disclosure chevrons and hairline dividers | List items without chevrons, grouped with gaps (section 8) |
+| SF Symbols | Material Symbols, one style (outlined, rounded, or sharp) app-wide |
+
+- **Edge-to-edge:** backgrounds, images, and scrolling content draw behind the system bars; text and controls stay inset. The gesture bar stays transparent. The status bar is transparent unless content scrolls under it, then it gets one protection (Material top app bars already provide it). No tap targets inside the system gesture insets. Pin text inputs above the keyboard. Implementation: the `edge-to-edge` skill.
+- **Settings:** only infrequent preferences; frequent ones sit next to their feature. App version, licenses, and account management get their own destinations, not settings rows. The overview shows each setting's current value; 15 or more settings means subscreens whose titles match the row that opened them. Labels lead with the important word and avoid generic verbs (Set, Change, Manage, Use). A switch for on/off, never a lone radio button. Place "Settings" in secondary navigation, after everything except "Help & feedback."
+- **Onboarding and sign-in:** show value before asking for permissions or an account; ask for a permission at the moment it's needed, after explaining why; every intro step is skippable. Passkeys first ("Create a passkey," "Sign in"), with recovery always visible.
+- **Notifications:** only timely value (never promotions, "we miss you," or rating requests). Title under 30 characters, text under 40, up to three actions, a large icon only when it adds content (circular for a person, square otherwise), never for branding.
+- **Never lock orientation or theme:** support landscape, resizing, and light and dark.
+- **Widgets:** read [references/widgets.md](references/widgets.md) before designing one.
+
 ## Wear OS
 
 Watches build from black, use edge-hugging buttons, Roboto Flex with numeral and arc styles, percentage margins, and a 225dp breakpoint; Wear's `MaterialTheme` also defaults to Standard motion. Read [references/wear-os.md](references/wear-os.md) before designing Wear screens; use the `wear-compose-m3` skill for Wear scaffolding and migration.
@@ -266,6 +286,7 @@ Before calling a screen done, answer each:
 - [ ] Are all components from the right column of section 9's table?
 - [ ] Custom animations use `MaterialTheme.motionScheme`, not `tween()`?
 - [ ] Restraint: at most one hero moment on this screen, nothing overlapping, one thing moving?
+- [ ] No iOS habits (centered title, chevron rows, Cancel/Done text) and content drawn edge-to-edge?
 - [ ] Would it still be clear with the expressive flourishes removed?
 
 If the screen could pass for the Material component catalog, it isn't done.
@@ -291,5 +312,6 @@ If the screen could pass for the Material component catalog, it isn't done.
 
 - [references/theming.md](references/theming.md): read when setting up or changing a theme, color scheme, type scale, shapes, motion scheme, or spacing.
 - [references/components.md](references/components.md): read when choosing a component or writing one you haven't used in this session.
-- [references/layout.md](references/layout.md): read when a screen must adapt to tablets, foldables, landscape, or desktop windows.
+- [references/layout.md](references/layout.md): read when a screen must adapt to tablets, foldables, landscape, or desktop windows, or support mouse and keyboard.
+- [references/widgets.md](references/widgets.md): read before designing or reviewing a home screen widget.
 - [references/wear-os.md](references/wear-os.md): read before designing any Wear OS screen or tile.

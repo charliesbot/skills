@@ -18,7 +18,9 @@ Implementation (Compose for Wear OS APIs, `AppScaffold`, `ScreenScaffold`,
 - **m3.material.io Design for watches** (Overview, Foundations, Styles,
   Layout tabs), content version `2026-09-16_06-10-03`.
 - **Gaps:** the M3 design guide has no component or motion pages yet (APIs and spring values below come from androidx sources); component URLs
-  redirect to the older Material 2.5 guide, which was skipped. Shape details
+  redirect to the older Material 2.5 guide. Its behavior and surface pages
+  (navigation, physical buttons, launch, sign-in, watch faces) were read later
+  and still describe platform behavior; its component styling was skipped. Shape details
   (edge-hugging button specs, corner values) and Wear spring values come from
   the Compose APIs, not the design guide.
 
@@ -212,6 +214,56 @@ never all filled primary buttons.
   progress indicators.
 - Haptics: stronger for key moments (payment confirmation), subtler for
   precision (scrolling). Sync haptics with motion and sound.
+
+### Surface priorities, watch faces, and notifications
+
+From developer.android.com/design/ui/wear (M2.5 surfaces guides, still
+current as platform behavior):
+
+- **Split content by priority across surfaces.** Google's weather example: the
+  complication answers P1 ("weather right now"), the tile adds P2 ("today"),
+  the app adds P3 (hourly breakdown, preferences). Notifications carry only
+  P1 alerts.
+- **Tiles:** one task per tile (a fitness app ships a goals tile and a workout
+  tile); show how fresh the data is ("45 min ago") when it's cached; update at
+  most about once a minute for ongoing activities.
+- **Watch faces:** time first (checked about 150 times a day), complications
+  for glanceable data, customization, black as the primary color, stay within
+  the bezel. Always-on mode lights **15% or less** of the pixels.
+- **Notifications:** only when worth buzzing the wrist (valuable, glanceable,
+  timely); standard, big text, big picture, and messaging templates.
+
+## Behaviors (developer.android.com/design/ui/wear)
+
+- **Navigation:** swipe right to close replaces back buttons. Keep everything
+  else vertical; no horizontal carousels. Pannable views (maps) limit the
+  dismiss swipe to a left-edge threshold.
+- **Physical buttons:** map a multifunction button only to obvious binary
+  single-press actions (start/stop, play/pause) in apps used without looking.
+  Every mapped action also exists on screen; never map a destructive or
+  multi-step action (deleting, stopping navigation, replying).
+- **Launch:** black window background with the 48dp circular app icon
+  centered (matching the launcher icon). Build the screen gradually: static
+  text, buttons, and placeholders first; avoid indeterminate spinners; give
+  visual feedback before the work completes.
+- **Ongoing activities** (timers, workouts, media): the Recents entry states
+  type and status (track name, workout duration, ETA); the tile shows a
+  glanceable summary, not detail and actions.
+- **Clipping:** test with other languages, larger text, and **Bold text**.
+  Calls to action use text that fits the smallest screen; use compact chips
+  instead of cards for dense layouts; pad lists so first and last items scroll
+  fully into view.
+- **Offline:** an offline indicator at the top when features are unavailable
+  (gray them out or hide them), at the bottom of a list when no more content
+  can load.
+- **Sign-in:** Credential Manager with passkeys first, plus passwords and Sign
+  in with Google; at least two distinct methods ("sign in on phone" alone fails
+  without the phone). Sign-in-only apps show it immediately; others delay it
+  until needed and explain the benefit in context. Never name "Credential
+  Manager" in UI.
+- **Dialogs:** alerts are full screen and interrupt, so use them sparingly;
+  left-align alert text longer than three lines. Confirmations only
+  acknowledge a finished action; they never ask for a decision.
 
 ## Gestures (Wear OS 7)
 

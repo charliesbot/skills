@@ -83,4 +83,18 @@ Custom `TransformationSpec` effects (rotating or morphing items at the edges) ar
 - **Media:** five-button controls with play/pause at 64dp (80dp past 225dp) inside a progress ring; volume via the rotating side button; prioritize downloaded media; tiles show selectable media, not play/pause.
 - **Always-on:** few lit pixels; drop frequently updating progress.
 - **Haptics:** strong for key moments (payment confirmed), subtle for precision (scrolling), synced with motion.
+- **Priorities across surfaces:** complication answers the top question (weather now), the tile adds the next (today), the app holds the rest (hourly, preferences). Notifications only when worth buzzing the wrist.
+- **Tiles:** one task per tile (separate goals and workout tiles); show data age when cached ("45 min ago").
+- **Watch faces:** time first, black as the main color, stay inside the bezel; always-on lights 15% or less of the pixels.
 - **Gestures (Wear OS 7):** double pinch triggers the screen's one primary action, wrist turn dismisses; every gesture action must also have a visible button.
+
+## Behaviors
+
+- **Navigation:** swipe right closes the screen; no back buttons, no horizontal carousels.
+- **Physical buttons:** map a multifunction button only to a single-press, binary, reversible action (start/stop, play/pause) that also exists on screen. Never a destructive or multi-step action.
+- **Launch:** black background with the 48dp circular app icon centered; build the screen from static text and placeholders, not an indeterminate spinner.
+- **Ongoing activities:** the Recents entry states type and status (track, workout duration, ETA); the tile shows a glanceable summary.
+- **Clipping:** test with Bold text, larger text, and long languages; calls to action fit the smallest screen; compact chips beat cards in dense layouts.
+- **Offline:** an indicator at the top when features are unavailable (gray them out or hide them), at the end of a list when nothing more can load.
+- **Sign-in:** passkeys through Credential Manager first, at least two methods total; sign-in-only apps ask immediately, others wait until needed and explain the benefit.
+- **Dialogs:** alerts are full-screen interruptions, used sparingly, with text left-aligned past three lines. Confirmations only acknowledge a finished action; they never ask a question.
