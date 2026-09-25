@@ -46,12 +46,12 @@ val colorScheme = rememberDynamicColorScheme(
     seedColor = BrandColor,
     isDark = dark,
     specVersion = ColorSpec.SpecVersion.SPEC_2025,
-    style = PaletteStyle.Expressive, // or Vibrant, TonalSpot (Material's default), Fidelity, Content
+    style = PaletteStyle.TonalSpot, // Material's default; Fidelity when the brand color must appear as-is
     contrastLevel = rememberSystemContrast(), // see Contrast levels below
 )
 ```
 
-Palette styles, from calm to loud: Monochrome, Neutral, TonalSpot (the stock Material look), Fidelity and Content (stay close to the seed), Vibrant (maximum chroma), Expressive (shifts hues for playful contrast), Rainbow, FruitSalad. For an app that should look distinct, start with Expressive or Vibrant.
+Keep the generator's default style. `TonalSpot` is what Material and Theme Builder generate; `Fidelity` keeps tones close to the seed, like Theme Builder's "match color." The other styles are scheme variants, not M3 Expressive: `Vibrant` pushes primary chroma to the maximum, and `Expressive` shifts hues away from the seed (in testing, a teal brand gained brown and orange roles) and tints surfaces. Distinctiveness comes from role assignment, type, shape, and composition, not from a louder palette.
 
 A common pattern: brand scheme by default, dynamic color as a user setting.
 
@@ -67,7 +67,7 @@ val scheme = rememberDynamicColorScheme(seedColor = seed, isDark = isSystemInDar
 MaterialExpressiveTheme(colorScheme = scheme) { NowPlaying(...) }
 ```
 
-Decode a small thumbnail for extraction, not the full image. If the newest MaterialKolor fails to resolve against your Kotlin or Compose versions, pin the latest version that does.
+Decode a small thumbnail for extraction, not the full image. MaterialKolor 5.x is built with Kotlin 2.4; if it fails to resolve against your Kotlin or Compose versions, pin the latest version that does (4.x for older Kotlin).
 
 ### Roles
 
@@ -88,7 +88,7 @@ Pairing and no-alpha rules live in [SKILL.md section 4](../SKILL.md#4-color). Ma
 
 ### Extra colors (semantic and categories)
 
-For a Success green, or categories beyond the three accent roles, Material's answer is a **static color**: one seed that produces four roles (color, on-color, container, on-container) following the same pairing rules. Generate them at runtime so they follow light, dark, and contrast:
+For a Success green, or categories beyond the two category-safe accent containers, Material's answer is a **static color**: one seed that produces four roles (color, on-color, container, on-container) following the same pairing rules. Generate them at runtime so they follow light, dark, and contrast:
 
 ```kotlin
 @Immutable
@@ -108,8 +108,8 @@ fun rememberExtraColor(seed: Color, harmonize: Boolean = true): ExtraColor {
 }
 ```
 
-- Harmonizing shifts the hue slightly toward the scheme's primary while keeping its meaning (a red stays red). Skip it when the color is literal: a brand color, transit line colors.
-- Categories: the first three can use `primaryContainer`, `secondaryContainer`, and `tertiaryContainer`; a fourth or more each get an `ExtraColor`. Apply category color to small badges and icons (`container` fill, `onContainer` glyph), never to whole cards, and keep the same hue for the same category everywhere.
+- Harmonizing shifts the hue slightly toward the scheme's primary while keeping its meaning (a red stays red). Skip it when the color is literal (a brand color, transit line colors) or must stay distinguishable: pass `harmonize = false` for categories, and pick seeds far apart in hue.
+- Badges use `container` with an `onContainer` glyph; chart segments use `color`. Category rules: SKILL.md section 4.
 
 ### Contrast levels
 

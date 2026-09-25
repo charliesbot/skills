@@ -45,7 +45,7 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 - Primary action takes most of the row; secondary actions (bookmark, overflow) go trailing.
 - Show selection with two cues, never color alone (a checkmark plus a fill).
 - Swipe reveals mixed-style buttons with the primary action last; a full swipe triggers it; always offer another path (overflow).
-- Settings rows with a switch: use the `onClick` overload of `SegmentedListItem` with a trailing `Switch` (clicking the row toggles it). The `checked` overload gives the whole row a checkbox role and a selected fill.
+- Settings rows with a switch: use the `onClick` overload of `SegmentedListItem` with a trailing `Switch(checked, onCheckedChange = null)` (clicking the row toggles it), and give the row `Modifier.semantics { role = Role.Switch; toggleableState = ToggleableState(checked) }` so TalkBack announces one switch instead of a button plus a switch. The `checked` overload gives the whole row a checkbox role and a selected fill.
 - Segmented items must stand off their background: on a `surface` page, pass `colors = ListItemDefaults.segmentedColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)`.
 - Compact: edge-to-edge list opening a full detail page. Medium and up: list-detail side by side; a list can become cards or a carousel on large screens.
 
@@ -99,7 +99,7 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 Use Material Symbols in one style (outlined, rounded, or sharp) across the app.
 
 1. Download icons from [fonts.google.com/icons](https://fonts.google.com/icons) in the Android format (vector drawable XML), with Fill 0 for the default state and Fill 1 for selected states.
-2. Delete the `android:tint="?attr/colorControlNormal"` attribute from each file; in Compose, `Icon` applies the color.
+2. Delete only the `android:tint="?attr/colorControlNormal"` attribute from each file's `<vector>` tag, keeping the tag's closing `>`; in Compose, `Icon` applies the color.
 3. Draw with `Icon(painterResource(R.drawable.ic_favorite), contentDescription = "Like", tint = ...)`; leave `tint` at its default (`LocalContentColor`) inside components so the role pair stays correct.
 
 `androidx.compose.material:material-icons-extended` is the older Material Icons set, frozen at 1.7.8 and large; use it only for quick prototypes. Snippets below use `Icons.Rounded.*` for brevity.

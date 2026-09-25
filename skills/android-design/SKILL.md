@@ -15,6 +15,8 @@ The through-line: **a screen feels designed when emphasis is spent deliberately.
 
 > "Why did all these apps look so similar? So boring? Wasn't there room to dial up the feeling?" (The question from Google's research team that started M3 Expressive.)
 
+Quotes and rules marked **(Google)** come from Google's guidance. Rules marked **(default)** are this skill's starting points: follow them unless the screen's direction gives a reason not to.
+
 ## Why stock Compose code looks generic
 
 Three causes, each fixable:
@@ -25,15 +27,16 @@ Three causes, each fixable:
 
 ## 0. Before writing UI
 
-Answer these in a sentence or two before any code. Skipping this step is what produces generic screens.
+Answer these in your reply before any code, a sentence or two each. Skipping this step is what produces generic screens.
 
-1. **Rank the goals.** What is the one primary task on this screen? What is secondary and tertiary? Google's rule: "Simplifying to one primary task on each page."
-2. **Decide the hero moment.** Is this screen one of the product's one or two hero moments (the most emotional or most central interaction)? If yes, plan how several tactics combine there. If no, keep it calm.
-3. **Choose the color source.** Dynamic (wallpaper), brand (a seed or hand-picked scheme), or content-based (from an image on screen). See section 4. The theme template in section 1 shows dynamic color with a fallback; replace it with the source you chose.
-4. **Spend the emphasis budget.** Primary goal: largest size, strongest color contrast, distinct shape, emphasized type. Secondary: one or two tactics. Tertiary: containment and type only.
-5. **Pick components from section 9's table**, not from memory of older Material.
+1. **Rank the goals.** What is the one primary task on this screen? What is secondary and tertiary? (Google: "Simplifying to one primary task on each page.")
+2. **Choose a direction.** Name the screen's emotional character, the content or interaction that defines it, and one visual idea that ties type, imagery, color, and shape together. Each answer must name a decision ("the total set in tall numerals fills the top third"), not an adjective ("modern, clean").
+3. **Decide the hero moment.** Is this screen one of the product's one or two hero moments (the most emotional or most central interaction)? If yes, plan how several tactics combine there. If no, keep it calm (Google).
+4. **Choose the color source.** Dynamic (wallpaper), brand (a generated scheme), or content-based (from an image on screen). See section 4.
+5. **Spend emphasis by rank.** The primary goal gets the most, usually size first. Secondary goals get fewer tactics; tertiary ones get containment and type (Google). Content can dominate the screen when it is the product, as long as the primary action stays unmistakable.
+6. **Pick components from section 9's table**, not from memory of older Material.
 
-After writing, run the [anti-generic check](#anti-generic-check).
+Then compose the screen (section 8), build it, and run the [screen check](#screen-check) on the rendered result.
 
 ## 1. Theme setup
 
@@ -67,7 +70,7 @@ Google's research justifies Expressive through usability, not decoration: partic
 
 - **Size is the loudest lever.** "The most important action or the main call to action should be the largest element" (the largest interactive element; a summary card can be physically bigger). Larger key actions measurably reduce errors and improve satisfaction. One focal point per screen: when everything is large, nothing is.
 - **Placement:** put the primary action low and reachable, last in the vertical flow so the eye ends there. Google's email study: moving Send from a small top-bar icon to a larger button just above the keyboard, in `secondary`, made people find it 4x faster. Put the key action where the hands and eyes already are.
-- **Only the primary action gets a strong filled color.** Secondary actions are tonal or standard; toggles like favorite show state with a filled icon or a tonal container, not a second loud fill competing with the main control.
+- **The primary action gets the strongest fill** (Google: primary roles go to crucial calls to action; filled buttons sparingly). Secondary actions are tonal or standard; toggles like favorite show state with a filled icon or a tonal container, not a second loud fill competing with the main control.
 - **Contrast between roles, not one role everywhere:** `primary` for the main action, `secondary` or `secondaryContainer` for supporting controls, `tertiary` for status or accents. Using `primary` and `primaryContainer` for everything flattens the screen.
 - **Containment:** group related items in containers; give the most important content "ample space and the brightest surface."
 - **Summaries support the task, they don't outrank it.** When the primary goal is acting on a list (checking off habits, replying to messages), the next actionable item must stay the most inviting thing on screen. Stat cards can be bold, but give actionable rows clear containers and let completed items recede (quieter color, no strong fill). Selection highlighting is for what the user chose, not for what is finished.
@@ -93,29 +96,33 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - A hero moment layers type, shape, color, motion, and flexible components on the product's key interaction: the Phone dialer, a media player, a completed goal, a breathing session. Ask: *is it emotionally impactful?* and *is it a key interaction?*
 - **One or two per product.** They're "brief, delightful, surprising, and unexpected"; more than that overwhelms.
 - Secondary screens use fewer tactics. Don't combine every tactic everywhere.
-- In a hero moment, **one custom thing moves**: keep text stable while the shape animates. Built-in component morphs (a button changing shape on press) don't count.
-- **When content is the product, the content is the hero.** In players, galleries, and trips, give the album art or photo the scale, a library-shape mask or edge-to-edge bleed, an editorial title, and let its color set the screen. A plain rounded rectangle wastes the moment.
+- In a hero moment, **one custom thing moves**: keep text stable while the shape animates (Google). Built-in component morphs (a button changing shape on press) don't count.
+- **When content is the product, the content is the hero.** In players, galleries, and trips, give the album art or photo scale and let its color set the screen. A library-shape mask, a full bleed, or a title layered over the image are options, not requirements: an ordinary rounded crop is just as strong when the composition around it carries the idea.
 - **Keep familiar patterns.** Expressive styles the patterns; it doesn't replace them. In Google's tests, a playlist rebuilt as scattered album art "looked modern and exciting" but people didn't recognize it as a playlist, and removing text labels from email actions hurt usability. Context matters too: what suits a media player may not suit a banking app.
 - A "strong minority" of users prefer calmer designs, and "no amount of emotion can compensate for a lack of clarity." Expressive sharpens a screen that already works; it doesn't rescue a confused one.
 
 ## 4. Color
 
-- **Choose the source deliberately.**
-  - *Dynamic* (wallpaper) is Google's recommendation and gives personalization; recent Android versions produce more chroma. The app will share hues with the rest of the phone, so its identity has to come from hierarchy, shape, and type.
-  - *Brand* gives the app its own identity. Generate a scheme from a seed (Material Theme Builder export, or MaterialKolor at runtime with `PaletteStyle.Expressive` or `Vibrant`, see theming reference).
-  - *Content-based* colors a contained area from an image on screen (album art, a photo). Limit a screen to two color sources and keep the source image visible.
-- **Hierarchy comes from contrasting roles.** Use contrasting hues for different jobs: action (`primary`), selection (`secondary`), status or delight (`tertiary`). Google's example: purple actions with yellow progress.
+- **The generator makes the palette; you assign the roles.** Material's color utilities turn one source color into the accent, surface, light, and dark roles (Google). Take the generated palette as it comes and spend the design effort on which element gets which role.
+  - *Dynamic* (wallpaper) is Google's recommendation and gives personalization. The M3 Expressive update made dynamic color richer at the source ("higher chroma across all hues"); apps get it automatically. The app shares hues with the rest of the phone, so its identity comes from hierarchy, shape, and type.
+  - *Brand* gives the app its own identity: a scheme generated from the brand color with Material Theme Builder, or with MaterialKolor at runtime at the default palette style (theming reference). Don't raise a palette style to look "more expressive": MaterialKolor's `PaletteStyle.Expressive` is a hue-shifting scheme variant unrelated to M3 Expressive, and it pulls the palette away from the brand's hue.
+  - *Content-based* colors a contained area from an image on screen (album art, a photo). Limit a screen to two color sources and keep the source image visible (Google).
+  - `expressiveLightColorScheme()` is only the light fallback when dynamic color is unavailable, as in Google's `MaterialExpressiveTheme` sample.
+- **Accents mark meaning.** "Accent colors usually exhibit the most expressiveness within a UI, whether it's for branding, highlighting actions, personal expression, or user expression." Apply them by importance: primary to crucial actions (the FAB), secondary and tertiary "down the hierarchy." "Use all accent colors mindfully, taking into account that the human eye is particularly drawn to vibrant colors." (Google)
+- **Different jobs get different roles.** Use "a variety of primary, secondary, and tertiary accent colors for hierarchy and distinction": action (`primary`), selection (`secondary`), status or delight (`tertiary`). Google's example: data in `primary`, progress accents in `secondary` yellow.
+- **Surfaces are most of the screen.** Surface colors "represent the majority of your app's colors. Don't be shy to use lots of surface space; the human eye needs space to relax." (Google) Build hierarchy with surface steps and put accent containers only on elements with a job (the hero, a selection, a key status), not on every card.
 - **Apply roles only in their intended pairs or layering orders** (Google's rule): `onX` on `X`; `onSurface`, `onSurfaceVariant`, and `primary` on surfaces; `inverseOnSurface` and `inversePrimary` on `inverseSurface`. Containers are fills, never text colors. Default text is `onSurface`; `onSurfaceVariant` for lower emphasis.
 - **Never fade text or icons with alpha.** `copy(alpha = ...)` breaks the contrast the pairs guarantee. Lower emphasis is a different role, not a transparent one.
 - **Surfaces:** `surface` for the body, `surfaceContainer` for navigation regions, and the five container levels for nesting. The most important container gets the brightest surface.
 - Dividers use `outlineVariant`; text field borders use `outline`.
 - **Surface steps:** a container must be more than one surface-container step from what it sits on (`surfaceContainerHigh` on `surface`, not on `surfaceContainer`), or it blends in.
 - **Vibrant** component styles (menus, toolbars) are tertiary-based and "should be used sparingly."
-- Semantic colors (error red, a success green defined as a static color) never come from content color.
-- **Inverse containers** (`inverseSurface` / `inverseOnSurface`) make one card pop inside a light screen, like a total next to lighter metric cards. Use once per screen.
+- Semantic colors (error red, a success green defined as a static color) never come from content color, and keep one meaning everywhere: "if you establish a pattern, repeat it throughout the app." (Google)
+- **Inverse containers** (`inverseSurface` / `inverseOnSurface`) reverse one element out of the screen, like a snackbar or a total next to lighter metric cards.
 - **Color can follow state:** a scheme derived from the app's content or context (the sky in a weather app, album art in a player) is content-based color at screen scale. Offering the seed and palette style (and a pure black dark mode) as user settings is common in shipped Expressive apps.
-- **Color budget: one loud fill per screen.** At most one saturated or inverse container (the hero). Everything else uses container roles or tinted surfaces. Four saturated cards side by side read as noise, not hierarchy.
-- **Category colors:** related items can take different container roles (`primaryContainer`, `secondaryContainer`, `tertiaryContainer`) or tonal steps of one hue so each is recognizable at a glance, and they stay quiet: color the badge or icon, not a whole saturated card. For more categories than roles, generate a static color per extra category (four roles from one seed, harmonized with primary; recipe in [references/theming.md](references/theming.md#extra-colors-semantic-and-categories)), never an improvised hex or extra bright fills.
+- **Strong fills mark the hero or one coherent group** (default). A set of related filled controls can read as one unit; unrelated saturated cards side by side read as noise, not hierarchy.
+- **Category colors** need clearly different hues so each is recognizable at a glance. Two can use `primaryContainer` and `tertiaryContainer` (tertiary sits at a different hue; secondary shares primary's hue at lower chroma, so it reads as the same color); more get a static color each (four roles from one seed, not harmonized, since harmonizing pulls hues together; recipe in [references/theming.md](references/theming.md#extra-colors-semantic-and-categories)), never an improvised hex. Color the badge or icon, not a whole card.
+- **Charts and data graphics** use the solid roles (`primary`, `secondary`, `tertiary`, a static color's main role), not containers: graphics need 3:1 against their background (Google), and pale containers disappear.
 
 ## 5. Typography
 
@@ -150,7 +157,7 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Tension creates focus.** Mix round and square; "break from the surrounding shape style to draw attention to a particular element." Material "historically focused on rounded shapes"; sharp contrast is more memorable.
 - **Shape signals state.** Expressive buttons, icon buttons, toggles, and list items morph on press and selection (round to square or back). Use the components' `shapes` parameters to get this for free.
 - **The shape library** (`MaterialShapes`: Cookie9Sided, Sunny, Flower, Clover4Leaf, Burst, Pill, Heart, and 28 more) is for avatars, image crops, decorative graphics, achievements, and a bespoke hero button. Not for text-heavy containers. "Shapes without clear meaning... add more visual clutter than delight."
-- **Uniform within a group:** related data uses the same shape and size, evenly spaced, never overlapping.
+- **Uniform within a group:** related data (metrics, calendar days) uses the same shape and size, evenly spaced, without overlap (Google). Decorative layering, such as type over an image, is fine when controls and text stay clear.
 - **Optical roundness:** nested radius = outer radius minus padding (28dp card with 12dp padding holds 16dp corners).
 - Grouped items use small inner corners and large outer ones (segmented lists: 4dp inner, 16dp outer; selected morphs to 16dp all around).
 
@@ -196,9 +203,22 @@ val tint by animateColorAsState(if (selected) colors.primary else colors.surface
 - Keep reading text at 40 to 60 characters per line.
 - **Adapt by breakpoint:** compact (under 600dp) one pane with a navigation bar; medium (600 to 839dp) one pane (two only for low-density content); expanded and up two panes with a navigation rail. Moving up a breakpoint, *reveal* more, don't just enlarge. Details: [references/layout.md](references/layout.md).
 
+### Composing the screen
+
+Components are the last step. Compose from the direction in section 0 and the content itself:
+
+1. **One element leads.** Decide what fills the most space: the content (a photo, a number, a headline), the primary control, or a key summary. Only one leads; everything else is arranged around it. Google: one focal point per screen, "empty space to focus attention."
+2. **Space follows rank.** The lead gets scale and room; supporting information packs into compact groups; tertiary details sit at the edges or behind a tap. The most important content gets "ample space and the brightest surface mapping." (Google)
+3. **Type can be the structure.** A display-size title or number can anchor the layout by itself, with no card around it. Heavier weight, larger size, color, and spacing create "editorial-like moments." (Google)
+4. **Group by spacing or by containers, deliberately.** Proximity and alignment group implicitly and keep the screen open; containers and surface steps group explicitly and add weight (Google). Use containers where a group must read as one unit or be tapped as one; use spacing when items flow as a list or a story. Ungrouped information blends together.
+5. **Give different information different forms.** A summary, a comparison, and a history rarely want the same card grid. Match the grid to the content: hierarchical for editorial and detail screens, modular for equal items, a column for flowing lists (Google, via [references/layout.md](references/layout.md)). Repeating one container shape for everything is what makes a screen look assembled from the catalog.
+6. **Let content set the color.** When an image or a subject leads, derive the screen's color from it (section 4) instead of adding accents around it.
+
+Keep familiar patterns underneath (section 3): the composition is new, the interaction model is not.
+
 ### Patterns from shipped Expressive apps
 
-Recurring moves in Google's showcases and well-reviewed Expressive apps, each an application of the principles above:
+Recurring moves in Google's showcases and well-reviewed Expressive apps. They are options that apply the principles above, not a checklist: use one only when it serves the screen's direction.
 
 - **Metric card:** a small label over a huge emphasized number in a tinted container; the number is the hero, the label whispers.
 - **Editorial header:** a Display or custom-width title that dominates the top of a screen or sits over a full-bleed photo (an album or trip cover).
@@ -275,24 +295,26 @@ Material says how components look; Android's own design guides say how an app be
 
 Watches build from black, use edge-hugging buttons, Roboto Flex with numeral and arc styles, percentage margins, and a 225dp breakpoint; Wear's `MaterialTheme` also defaults to Standard motion. Read [references/wear-os.md](references/wear-os.md) before designing Wear screens; use the `wear-compose-m3` skill for Wear scaffolding and migration.
 
-## Anti-generic check
+## Screen check
 
-Before calling a screen done, answer each:
+Look at the rendered screen, not the code. Capture it with `android screen` (see the `android-cli` skill) or a Compose preview screenshot. If you can't render it, report "visual quality unverified" instead of answering from code.
 
-- [ ] Can you name the screen's primary goal, and is it the most visually prominent element?
-- [ ] Is the theme `MaterialExpressiveTheme` (or an explicit expressive `motionScheme`)?
-- [ ] Are at least two accent roles used for different jobs, not `primary` everywhere?
-- [ ] Contrast: every text and icon color is its container's intended pair, no alpha on text, no improvised hex colors?
-- [ ] Is there type contrast (a Display or Headline moment, or emphasized styles on key text)?
-- [ ] Does shape carry meaning somewhere (morphing buttons, a library shape on a hero or avatar, round/square contrast)?
-- [ ] Are grouped items contained with gaps instead of long divider lists?
-- [ ] Are all components from the right column of section 9's table?
-- [ ] Custom animations use `MaterialTheme.motionScheme`, not `tween()`?
-- [ ] Restraint: at most one hero moment on this screen, nothing overlapping, one thing moving?
-- [ ] No iOS habits (centered title, chevron rows, Cancel/Done text) and content drawn edge-to-edge?
-- [ ] Would it still be clear with the expressive flourishes removed?
+- Is the hierarchy obvious at first glance: does the eye land on the primary goal?
+- What gives the screen its character, and does every expressive choice serve the direction from section 0?
+- Is most of the screen calm surface, with accents on elements that have a job?
+- Are supporting content and actions still easy to find and use?
+- Does it hold up with real content lengths, 200% text, and a smaller window?
+- Would it still be clear with the expressive flourishes removed?
 
 If the screen could pass for the Material component catalog, it isn't done.
+
+Code checks, separately:
+
+- [ ] `MaterialExpressiveTheme` with the color source from section 4.
+- [ ] Components from the right column of section 9's table.
+- [ ] Text and icons use their intended role pairs: no `copy(alpha = ...)`, no hard-coded hex colors.
+- [ ] Custom animations use `MaterialTheme.motionScheme`, not `tween()`.
+- [ ] No iOS habits (centered title, chevron rows, Cancel/Done text); content drawn edge-to-edge.
 
 ## Quick reference
 
