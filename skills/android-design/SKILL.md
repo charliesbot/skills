@@ -105,7 +105,8 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
   - *Brand* gives the app its own identity. Generate a scheme from a seed (Material Theme Builder export, or MaterialKolor at runtime with `PaletteStyle.Expressive` or `Vibrant`, see theming reference).
   - *Content-based* colors a contained area from an image on screen (album art, a photo). Limit a screen to two color sources and keep the source image visible.
 - **Hierarchy comes from contrasting roles.** Use contrasting hues for different jobs: action (`primary`), selection (`secondary`), status or delight (`tertiary`). Google's example: purple actions with yellow progress.
-- **Pair only `X` with `onX`.** Containers are fills, never text colors. Default text is `onSurface`; `onSurfaceVariant` for lower emphasis.
+- **Apply roles only in their intended pairs or layering orders** (Google's rule): `onX` on `X`; `onSurface`, `onSurfaceVariant`, and `primary` on surfaces; `inverseOnSurface` and `inversePrimary` on `inverseSurface`. Containers are fills, never text colors. Default text is `onSurface`; `onSurfaceVariant` for lower emphasis.
+- **Never fade text or icons with alpha.** `copy(alpha = ...)` breaks the contrast the pairs guarantee. Lower emphasis is a different role, not a transparent one.
 - **Surfaces:** `surface` for the body, `surfaceContainer` for navigation regions, and the five container levels for nesting. The most important container gets the brightest surface.
 - Dividers use `outlineVariant`; text field borders use `outline`.
 - **Surface steps:** a container must be more than one surface-container step from what it sits on (`surfaceContainerHigh` on `surface`, not on `surfaceContainer`), or it blends in.
@@ -114,7 +115,7 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Inverse containers** (`inverseSurface` / `inverseOnSurface`) make one card pop inside a light screen, like a total next to lighter metric cards. Use once per screen.
 - **Color can follow state:** a scheme derived from the app's content or context (the sky in a weather app, album art in a player) is content-based color at screen scale. Offering the seed and palette style (and a pure black dark mode) as user settings is common in shipped Expressive apps.
 - **Color budget: one loud fill per screen.** At most one saturated or inverse container (the hero). Everything else uses container roles or tinted surfaces. Four saturated cards side by side read as noise, not hierarchy.
-- **Category colors:** related items can take different container roles (`primaryContainer`, `secondaryContainer`, `tertiaryContainer`) or tonal steps of one hue so each is recognizable at a glance, and they stay quiet: color the badge or icon, not a whole saturated card. For more categories than roles, use tonal steps or defined static colors, never extra bright fills.
+- **Category colors:** related items can take different container roles (`primaryContainer`, `secondaryContainer`, `tertiaryContainer`) or tonal steps of one hue so each is recognizable at a glance, and they stay quiet: color the badge or icon, not a whole saturated card. For more categories than roles, generate a static color per extra category (four roles from one seed, harmonized with primary; recipe in [references/theming.md](references/theming.md#extra-colors-semantic-and-categories)), never an improvised hex or extra bright fills.
 
 ## 5. Typography
 
@@ -202,7 +203,7 @@ Recurring moves in Google's showcases and well-reviewed Expressive apps, each an
 - **Metric card:** a small label over a huge emphasized number in a tinted container; the number is the hero, the label whispers.
 - **Editorial header:** a Display or custom-width title that dominates the top of a screen or sits over a full-bleed photo (an album or trip cover).
 - **Shape-masked media:** album art, avatars, and badges clipped to library shapes (Cookie, Flower, Sunny, Clover), sometimes clustered for groups.
-- **Pill hero control:** a full-width pill primary action paired with smaller round secondary buttons (Play with skip; Pause with Stop and Restart).
+- **Pill hero control:** a full-width pill primary action paired with smaller round secondary buttons (Play with skip; Pause with Stop and Restart). Toggles beside it (like, shuffle, repeat) are standard icon toggles: selected shows a filled icon in `primary`, never a filled container, so the pill stays the only strong fill.
 - **Split action pair:** two large half-width pills in contrasting colors for a two-way decision (Snooze and Stop), or a wide pill beside a round button (Stop with Pause).
 - **Floating pill toolbar** at the bottom holding the page's actions (or local navigation), with the active item as a filled pill.
 - **Segmented settings:** grouped list items with gaps, leading icons in tonal circles, switches with check and close thumb icons (`Switch(thumbContent = ...)`).
@@ -244,7 +245,8 @@ Google's brand examples keep behavior intact and add one subtle touch: a custom 
 
 ## 11. Accessibility and writing
 
-- Contrast 4.5:1 for small text and 3:1 for large text and clustered controls; correct role pairs give this automatically, including in medium and high contrast modes.
+- Contrast 4.5:1 for small text and 3:1 for large text, icons, and controls. Correct role pairs give this automatically, including in medium and high contrast modes; generated or hand-made schemes must read the system contrast setting ([references/theming.md](references/theming.md#contrast-levels)).
+- Never rely on color alone: states and links also get an icon, label, or underline.
 - Touch targets 48dp with 8dp between them. Support 200% text scaling: text grows, padding doesn't, layouts reflow.
 - Content descriptions state purpose ("Voice search"), not appearance, and never the role.
 - Sentence case, second person, no periods on single-sentence labels, contractions, exclamation points only for real celebrations.
@@ -280,6 +282,7 @@ Before calling a screen done, answer each:
 - [ ] Can you name the screen's primary goal, and is it the most visually prominent element?
 - [ ] Is the theme `MaterialExpressiveTheme` (or an explicit expressive `motionScheme`)?
 - [ ] Are at least two accent roles used for different jobs, not `primary` everywhere?
+- [ ] Contrast: every text and icon color is its container's intended pair, no alpha on text, no improvised hex colors?
 - [ ] Is there type contrast (a Display or Headline moment, or emphasized styles on key text)?
 - [ ] Does shape carry meaning somewhere (morphing buttons, a library shape on a hero or avatar, round/square contrast)?
 - [ ] Are grouped items contained with gaps instead of long divider lists?

@@ -79,7 +79,8 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | FABs | `FloatingActionButton`, `MediumFloatingActionButton`, `LargeFloatingActionButton`, `SmallExtendedFloatingActionButton`, `MediumExtendedFloatingActionButton`, `LargeExtendedFloatingActionButton` | |
 | FAB menu | `FloatingActionButtonMenu`, `FloatingActionButtonMenuItem`, `ToggleFloatingActionButton` | `Modifier.animateIcon({ checkedProgress })` in the toggle's scope |
 | Buttons | `Button`, `ElevatedButton`, `FilledTonalButton`, `OutlinedButton`, `TextButton` with `shapes =` | Heights: `ButtonDefaults.ExtraSmallContainerHeight` 32, `MinHeight` 40, `MediumContainerHeight` 56, `LargeContainerHeight` 96, `ExtraLargeContainerHeight` 136; `shapesFor(h)`, `contentPaddingFor(h)`, `iconSizeFor(h)`, `textStyleFor(h)` |
-| Toggle buttons | `ToggleButton`, `ElevatedToggleButton`, `FilledTonalToggleButton`, `OutlinedToggleButton` | `ToggleButtonSize`, `ToggleButtonDefaults.shapesFor(...)` |
+| Toggle buttons | `ToggleButton`, `ElevatedToggleButton`, `FilledTonalToggleButton`, `OutlinedToggleButton` | `ToggleButtonSize`, `ToggleButtonDefaults.shapesFor(...)`; colors from each variant's own defaults: `ToggleButtonDefaults.colors(...)`, `ElevatedToggleButtonDefaults.colors(...)`, `FilledTonalToggleButtonDefaults.colors(...)`, `OutlinedToggleButtonDefaults.colors(...)` |
+| Icon toggles | `IconToggleButton(checked, onCheckedChange, shapes = IconButtonDefaults.toggleableShapes())` and filled/tonal/outlined variants | `IconButtonDefaults.iconToggleButtonColors(...)`, `filledIconToggleButtonColors(...)`; swap to a filled icon when checked |
 | Standard button group | `ButtonGroup(overflowIndicator = { ButtonGroupDefaults.OverflowIndicator(it) })` | Scope: `clickableItem`, `toggleableItem`, `customItem`, `Modifier.animateWidth(interactionSource)` |
 | Connected button group | `Row` of `ToggleButton`s | `ButtonGroupDefaults.ConnectedSpaceBetween`, `connectedLeadingButtonShapes()`, `connectedMiddleButtonShapes()`, `connectedTrailingButtonShapes()` |
 | Split button | `SplitButtonLayout` | `SplitButtonDefaults.LeadingButton`, `TrailingButton(checked, onCheckedChange)`; tonal, outlined, elevated variants |
@@ -92,6 +93,16 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | Navigation rail | `WideNavigationRail(state = rememberWideNavigationRailState())`, `WideNavigationRailItem(railExpanded = ...)`, `ModalWideNavigationRail` | `NavigationSuiteScaffold` swaps bar and rail by window size |
 | Slider | `Slider(state = s, onValueChange = { ... })`, `VerticalSlider` | No XS to XL presets; inset icons are drawn in a custom track |
 | Carousel | `HorizontalMultiBrowseCarousel`, `HorizontalUncontainedCarousel`, `HorizontalCenteredHeroCarousel` | `rememberCarouselState` |
+
+## Icons
+
+Use Material Symbols in one style (outlined, rounded, or sharp) across the app.
+
+1. Download icons from [fonts.google.com/icons](https://fonts.google.com/icons) in the Android format (vector drawable XML), with Fill 0 for the default state and Fill 1 for selected states.
+2. Delete the `android:tint="?attr/colorControlNormal"` attribute from each file; in Compose, `Icon` applies the color.
+3. Draw with `Icon(painterResource(R.drawable.ic_favorite), contentDescription = "Like", tint = ...)`; leave `tint` at its default (`LocalContentColor`) inside components so the role pair stays correct.
+
+`androidx.compose.material:material-icons-extended` is the older Material Icons set, frozen at 1.7.8 and large; use it only for quick prototypes. Snippets below use `Icons.Rounded.*` for brevity.
 
 ## Snippets
 

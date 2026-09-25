@@ -47,6 +47,7 @@ val colorScheme = rememberDynamicColorScheme(
     isDark = dark,
     specVersion = ColorSpec.SpecVersion.SPEC_2025,
     style = PaletteStyle.Expressive, // or Vibrant, TonalSpot (Material's default), Fidelity, Content
+    contrastLevel = rememberSystemContrast(), // see Contrast levels below
 )
 ```
 
@@ -62,7 +63,7 @@ With MaterialKolor, extract a seed from the image and theme just that subtree:
 
 ```kotlin
 val seed = remember(art) { art.themeColor(fallback = BrandColor) } // com.materialkolor.ktx, on an ImageBitmap
-val scheme = rememberDynamicColorScheme(seedColor = seed, isDark = isSystemInDarkTheme(), style = PaletteStyle.Content)
+val scheme = rememberDynamicColorScheme(seedColor = seed, isDark = isSystemInDarkTheme(), style = PaletteStyle.Content, contrastLevel = rememberSystemContrast())
 MaterialExpressiveTheme(colorScheme = scheme) { NowPlaying(...) }
 ```
 
@@ -83,7 +84,50 @@ Decode a small thumbnail for extraction, not the full image. If the newest Mater
 | `inverseSurface`, `inverseOnSurface`, `inversePrimary` | Snackbars and reversed elements |
 | `primaryFixed`, `primaryFixedDim` (and secondary, tertiary) | Same tone in light and dark themes |
 
-Semantic extras (a Success green): define as extra theme colors derived from a seed, with their own `on` and container pairs, instead of reusing `tertiary`.
+Pairing and no-alpha rules live in [SKILL.md section 4](../SKILL.md#4-color). Material itself uses opacity only for state layers (built into components), disabled content (38%), and the `scrim` behind modals. `outlineVariant` is for dividers and decorative lines only, never text or icons.
+
+### Extra colors (semantic and categories)
+
+For a Success green, or categories beyond the three accent roles, Material's answer is a **static color**: one seed that produces four roles (color, on-color, container, on-container) following the same pairing rules. Generate them at runtime so they follow light, dark, and contrast:
+
+```kotlin
+@Immutable
+data class ExtraColor(val color: Color, val onColor: Color, val container: Color, val onContainer: Color)
+
+@Composable
+fun rememberExtraColor(seed: Color, harmonize: Boolean = true): ExtraColor {
+    val scheme = MaterialTheme.colorScheme
+    val source = if (harmonize) scheme.harmonizeWithPrimary(seed) else seed // com.materialkolor.ktx
+    val generated = rememberDynamicColorScheme(
+        seedColor = source,
+        isDark = scheme.surface.luminance() < 0.5f,
+        style = PaletteStyle.TonalSpot,
+        contrastLevel = rememberSystemContrast(),
+    )
+    return ExtraColor(generated.primary, generated.onPrimary, generated.primaryContainer, generated.onPrimaryContainer)
+}
+```
+
+- Harmonizing shifts the hue slightly toward the scheme's primary while keeping its meaning (a red stays red). Skip it when the color is literal: a brand color, transit line colors.
+- Categories: the first three can use `primaryContainer`, `secondaryContainer`, and `tertiaryContainer`; a fourth or more each get an `ExtraColor`. Apply category color to small badges and icons (`container` fill, `onContainer` glyph), never to whole cards, and keep the same hue for the same category everywhere.
+
+### Contrast levels
+
+Users pick standard, medium, or high contrast in system settings (Android 14+). Dynamic schemes follow it automatically; hand-made and generated schemes don't. For generated schemes, pass the system value to MaterialKolor:
+
+```kotlin
+@Composable
+fun rememberSystemContrast(): Double {
+    val context = LocalContext.current
+    return remember(context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            context.getSystemService(UiModeManager::class.java).contrast.toDouble() // 0 standard, 0.5 medium, 1 high
+        } else 0.0
+    }
+}
+```
+
+The brand and content-based snippets above already pass it. For a static Theme Builder export, also export the medium and high contrast schemes and pick one from this value.
 
 ## Typography
 
