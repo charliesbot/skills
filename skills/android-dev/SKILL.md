@@ -203,6 +203,7 @@ Prefer the smallest idiomatic Kotlin solution that satisfies the requirement. Op
 
 - Every `@Composable` function needs a `@Preview`. Catches layout issues without launching the app.
 - Use Material 3 components in `:app` features; Wear Material 3 in `:wear` features.
+- For how screens should look (hierarchy, color, type, shape, motion, component choice), load the `android-design` skill before writing UI.
 - Platform shells call feature screens — features don't know which platform they're on.
 - **Feature-scoped components live in a `component/` package inside the platform submodule** (e.g., `features/dashboard/app/component/StatCard.kt`). Promote shared platform UI only through the Lazy Design-System Promotions rules below.
 - The `app/` and `wear/` submodules within a feature do not share UI or ViewModels. Different Compose toolkits, different UI shape, different state. The shared code is in `:core:domain` (use cases, repositories, models).
