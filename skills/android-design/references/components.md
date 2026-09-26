@@ -7,7 +7,7 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | Need | Component | Rules that matter |
 | --- | --- | --- |
 | Page title and 1 or 2 actions | App bar: search, small, medium flexible, large flexible | One action, two at most; boost the key one with a filled or tonal (optionally wide) icon button, never two filled; fills with a contrasting color on scroll, or stays transparent with filled icon buttons floating over content; flexible bars compress to small on scroll |
-| Many actions for the current page | Toolbar: floating (contextual) or docked (global) | Standard colors keep focus on content, vibrant colors emphasize controls or signal a mode like editing; never with a navigation bar on screen; floating can pair with a FAB and collapse on scroll |
+| Actions or toggles for the current page, even two or three | Toolbar: floating (contextual) or docked (global) | Standard colors keep focus on content, vibrant colors emphasize controls or signal a mode like editing; never with a navigation bar on screen; floating can pair with a FAB and collapse on scroll |
 | The single most important action | FAB (FAB, medium, large) | One per screen; not every screen needs one; stays put on scroll; bottom half of the screen; color from primary, secondary, or tertiary sets |
 | Labeled primary action on a long scroll | Extended FAB (small, medium, large) | One per screen; not inside a set of actions; not with a floating toolbar |
 | 2 to 6 related actions behind the FAB | FAB menu | Only from a regular FAB; not with a toolbar or rail; color set matches the FAB |
@@ -35,6 +35,97 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | Search | Search bar, search app bar (global), or search icon button | Group results with gaps; full screen on phones, docked on tablets |
 
 ## Component details
+
+Usage rules from each component's Guidelines tab on m3.material.io (quotes are Google's). Read the section for every component you place.
+
+### Choosing emphasis across buttons
+
+- "Each screen should contain a single prominent button for the primary action." Emphasis order: FAB, then filled, tonal, elevated, outlined, text; icon buttons filled, tonal, outlined, standard.
+- Filled: final or unblocking actions (Save, Confirm), "ideally for only one action on a page." Tonal: supporting actions that need a little more than an outline (Next in onboarding). Outlined: attention without being primary, or a way to change your mind. Text: "the lowest priority actions," inside cards, dialogs, and snackbars. Elevated: only to separate from a patterned background.
+- Pair by stepping down: filled next to text or outlined; outlined next to text. Place buttons side by side when there's room, not stacked.
+- "Don't clutter your UI with too many buttons. Consider presenting low-priority actions in overflow menus or as icon buttons."
+- Labels 1 to 3 words, sentence case, never wrapped or truncated; the icon leads. Don't stretch buttons into long flat bars on large screens.
+- Toggle buttons are for binary selections (Save, Favorite): outlined icon off, filled on, and the shape morphs, so selection shows through more than color.
+
+### Icon buttons
+
+- For common actions with "a system icon with a clear meaning." "Only use a few icon buttons at once"; in dense layouts group them in a toolbar or button group.
+- Filled for a key action (sparingly), tonal for secondary actions beside a high-emphasis one (Raise hand next to a filled End call), outlined for medium emphasis, standard for low emphasis or colorful surfaces.
+- "When buttons have a similar importance, they should be the same size." Use size and width (narrow, default, wide) for hierarchy.
+- Toggle icon buttons only for things with a selected state, never for overflow.
+
+### Button groups and split button
+
+- Standard group: related buttons that react together. Same size and shape by default; "Only use multiple sizes in a group for hero moments." Use filled, tonal, outlined, or elevated buttons: standard icon and text buttons "have no container treatment."
+- Connected group: select options, switch views, or sort; "Avoid using a connected group when none of the buttons can be toggled." One color style per group. Groups never wrap to a second line.
+- Split button: one action plus a menu of related ones, labels of one or two words; the trailing half always shows the menu icon.
+
+### FAB, extended FAB, FAB menu
+
+- FAB for "the most important action on a screen," constructive (create, share, start), never minor or destructive; "FABs are not needed on every screen." Never disable it: hide it when unavailable.
+- Medium FAB is the default on phones, large on tablets. Lower trailing corner on compact and medium windows; in the rail on expanded.
+- Extended FAB: for long scrolling screens where a label helps; one per screen; never in the top half of a phone screen, on cards, or on toolbars; collapses to a FAB when scrolling down.
+- FAB menu: 2 to 6 closely related actions from a regular FAB; not with a floating toolbar or navigation rail.
+
+### App bars
+
+- Title plus "1–2 essential actions"; "one action, two if necessary." The primary action alters or exits the page (Send, Save, Edit). Many actions go in a toolbar; avoid overflow in the app bar when possible.
+- Boost the key action with one filled or tonal (optionally wide) icon button; "Don't put multiple filled or tonal buttons in the app bar." Prefer filled icons.
+- Small for dense layouts or scrolled pages; medium flexible and large flexible emphasize the headline and compress to small on scroll. Titles start-aligned or centered, never truncated; wrap to two lines only in flexible bars.
+- Straight corners; never shorter than the default height.
+
+### Toolbars
+
+- "Use a toolbar to provide actions related to the current page." Floating: "contextual actions relevant to the body content or the specific page." Docked: global actions that stay the same across pages. A small set counts (default): two or three page actions are enough for a toolbar.
+- Standard colors focus attention on the content; vibrant is "a high-emphasis color scheme that draws attention to the controls" and can signal a temporary mode such as editing.
+- Emphasize one action at most: a filled icon button, a different color role, a wide button, or a paired FAB. "Emphasize one action at a time."
+- Floating toolbars: fully on screen (overflow menu for extras), 16dp from the edges, no extra padding, no square filled icon buttons, one per compact window. Never with a navigation bar.
+- A floating toolbar can also be local navigation between related pages.
+
+### Navigation bar and rail
+
+- Bar: 3 to 5 top destinations on phones and small tablets; labels always, 1 or 2 words, never truncated; fixed positions; filled icon for the active item. Fewer than 3 destinations means tabs; never on desktop layouts. The FAB sits above the bar, never over it.
+- Rail: medium windows and up, 3 to 7 destinations, leading edge, outside panes; "Never use the navigation rail and navigation bar simultaneously." The expanded rail replaces the navigation drawer (no longer recommended).
+
+### Tabs
+
+- "Tabs organize groups of related content that are at the same level of hierarchy"; never for sequential content. Primary tabs under the app bar, secondary tabs inside content.
+- Avoid more than 4 fixed tabs; use scrollable tabs (first tab offset 52dp) when labels are long or many. Icons on all tabs or none.
+- Tabs attached to an app bar move with it as one unit; avoid swipeable content inside tabbed pages.
+
+### Cards and carousel
+
+- A card holds content and actions on a single topic. "Don't force content into cards when spacing, headlines, or dividers would create a simpler visual hierarchy." At compact sizes, "consider swapping cards for lists."
+- Elevated, filled, and outlined differ in style only. A card is either actionable itself or contains actions, never both. No internal scrolling or swipeable content inside a card.
+- Carousel: visual items with brief text; snap scrolling except uncontained; at most three items with text on compact screens; buttons go above or below, never on or beside the carousel; offer "Show all."
+
+### Dialogs and sheets
+
+- Dialogs for "critical information that requires a specific user task, decision, or acknowledgement," used "sparingly"; low-priority messages go to a snackbar. At most two actions, confirm at the trailing edge; headlines never apologize or ask "Are you sure?"
+- Full-screen dialogs only on compact windows, for multi-step or input-heavy tasks: close icon and a "Save" action.
+- Bottom sheets hold supplementary content on phones; modal sheets replace long menus or simple dialogs. Side sheets hold optional content on medium windows and up and always show a close button.
+
+### Chips
+
+- Chips "represent forking paths for a current task, while buttons represent linear steps." Never use chips to finish or progress a task, and never show a single chip alone.
+- Assist chips start with a verb; filter chips name what to include; input chips hold user entries; suggestion chips hold product suggestions. All chip sets on a page are either single-select or multi-select.
+- Not elevated on the page; labels 20 characters or fewer; wrap or scroll horizontally in one row.
+
+### Selection controls, sliders, text fields
+
+- Checkboxes for multiple related options in a list; radio buttons for one of five or fewer, listed vertically, one always selected; switches for standalone settings that take effect immediately. Opposing options (list or map view) use a connected button group, not a switch. "A switch can't replace a button."
+- Sliders take effect immediately and show the full range; "XL sliders should be reserved for hero moments, where the slider itself is the most important element on the page."
+- Text fields always have a visible label that never truncates; filled and outlined differ by style only, but never both in one form. Error text replaces supporting text; fields never span the full width of a large screen.
+
+### Feedback and status
+
+- Loading indicator for waits of 200ms to 5s; nothing under 200ms; a progress indicator over 5s. One indicator for a group of items. Use the contained loading indicator over other content.
+- The wavy progress shape "can make longer processes feel less static"; it adds height and suits moments "when a more expressive style is appropriate."
+- Snackbar: one at a time, one action at most (an "Undo" is ideal), no icons or links, above the FAB and never over navigation.
+- Tooltips label icon-only buttons; never hide critical information in one.
+- Badges sit at the icon's upper trailing corner, error colors, at most four characters ("999+").
+- Dividers: "Only use dividers if items can't be grouped with open space"; "use dividers to group things, not separate individual items."
+
 
 ### Lists
 

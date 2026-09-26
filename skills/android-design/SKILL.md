@@ -130,6 +130,7 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Emphasized styles** (`MaterialTheme.typography.displayLargeEmphasized` through `labelSmallEmphasized`) are heavier variants. Components don't use them by default; apply them to the primary button label, selected items, unread items, key numbers, and headlines. "Give extra impact to a headline, or subtly strengthen text of the same size."
 - **Use Google Sans Flex for every style** (this skill's standard, not a Google requirement). It is open source on Google Fonts since November 2025, most of the shipped Expressive apps sampled for this skill use it, and its shapes echo the Material shape library. Six variable axes: weight (1 to 1000), width (25 to 151), optical size (6 to 144), slant (0 to -10), grade (0 to 100), and roundness (`ROND`, 0 to 100). Bundle the variable font and set axes per style ([references/theming.md](references/theming.md#google-sans-flex)).
 - **Expressive voices on large styles, the text voice on small:** give Display and Headline the voice that serves the direction; keep Body and Label on default axes so they stay highly readable. Be careful at Title.
+- **The hero title or number must read as Google Sans Flex** (default): its character comes through strong axis settings (heavy weight, very narrow or very wide width, or high roundness). A medium weight at a middle width looks like any sans; keep the calm voices for secondary text.
 - **Axes carry feeling and meaning.** Google describes weight as ranging from "calm as a whisper" to "loud and rugged" and roundness as "personal, playful." In their research with 3,000+ readers, taller, more elegant (narrower) styles read as more premium and engaging. Axes also carry state: heavy in a filled container for the selected item, light for the rest, at the same size so nothing reflows. Grade adds emphasis without changing width.
 - **Always match optical size to the text size.** It reshapes letters to stay legible at every size; one setting across Display and Label hurts both. Set `opsz` per style (see the theming reference).
 - **Pick voices, not random axis values.** Define each voice once as a style and reuse it; two or three per app, each with one job. Starting points for Google Sans Flex voices are in [references/theming.md](references/theming.md#google-sans-flex); tune them to the direction rather than copying the nearest preset.
@@ -221,6 +222,7 @@ Stock code reaches for the left column. Lint won't flag it.
 | One-size buttons | Sized, morphing buttons (XS 32 to XL 136dp) | `Button(shapes = ButtonDefaults.shapesFor(height))` |
 
 - **App bar vs toolbar:** "Where app bar supports navigation, toolbar provides critical actions for the current page." App bars get one action (two at most), boosted with a filled or tonal icon button; many actions go in a toolbar. Never show a toolbar and a navigation bar together.
+- **Page controls go in a toolbar, not loose text buttons.** A few actions for the current page (lyrics and queue in a player) belong in a floating toolbar, or in the app bar within its one or two actions: Google's toolbar is for "actions related to the current page." Toggles that belong to a hero control (shuffle and repeat beside Play) stay with it.
 - **One FAB per screen** for the single most important action; not every screen needs one.
 - **Button groups:** same size and shape by default; mixed sizes only in hero moments.
 - Component selection, usage rules, and code: [references/components.md](references/components.md).
@@ -275,7 +277,7 @@ Look at the rendered screen, not the code. Capture it with `android screen` (see
 - Is the hierarchy obvious at first glance: does the eye land on the primary goal?
 - What gives the screen its character, and does every expressive choice serve the direction from section 0?
 - Does the distribution of color reinforce the hierarchy and the atmosphere, with accents on elements that have a job?
-- Are supporting content and actions still easy to find and use?
+- Are supporting content and actions still easy to find and use? Every action must look tappable: text-only buttons belong inside a clear group of actions (a dialog, card, or snackbar), not floating alone.
 - Does it hold up with real content lengths, 200% text, and a smaller window?
 - Would it still be clear with the expressive flourishes removed?
 
