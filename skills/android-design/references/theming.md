@@ -51,7 +51,7 @@ val colorScheme = rememberDynamicColorScheme(
 )
 ```
 
-Keep the generator's default style. `TonalSpot` is what Material and Theme Builder generate; `Fidelity` keeps tones close to the seed, like Theme Builder's "match color." The other styles are scheme variants, not M3 Expressive: `Vibrant` pushes primary chroma to the maximum, and `Expressive` shifts hues away from the seed (in testing, a teal brand gained brown and orange roles) and tints surfaces. Distinctiveness comes from role assignment, type, shape, and composition, not from a louder palette.
+Keep the generator's default style. `TonalSpot` is what Material and Theme Builder generate; `Fidelity` keeps tones close to the seed, like Theme Builder's "match color." The other styles are scheme variants, not M3 Expressive: `Vibrant` pushes primary chroma to the maximum, and `Expressive` shifts hues away from the seed (in testing, a teal brand gained brown and orange roles) and tints surfaces. Palette variants are color-generation choices, not levels of M3 Expressive. For more color on a screen, use content-based color or give accent roles to more elements that have a job.
 
 A common pattern: brand scheme by default, dynamic color as a user setting.
 
@@ -109,7 +109,7 @@ fun rememberExtraColor(seed: Color, harmonize: Boolean = true): ExtraColor {
 ```
 
 - Harmonizing shifts the hue slightly toward the scheme's primary while keeping its meaning (a red stays red). Skip it when the color is literal (a brand color, transit line colors) or must stay distinguishable: pass `harmonize = false` for categories, and pick seeds far apart in hue.
-- Badges use `container` with an `onContainer` glyph; chart segments use `color`. Category rules: SKILL.md section 4.
+- Use one role per category across a screen: `color` with an `onColor` glyph when the category also appears in a chart, or `container` with `onContainer` when it only marks badges. Category rules: SKILL.md section 4.
 
 ### Contrast levels
 
@@ -151,13 +151,27 @@ val AppTypography = base.copy(
 )
 ```
 
-- Change letter spacing and line height to fit a new face, not sizes: sizes drive component layout.
+- Change letter spacing and line height to fit a new face, not the scale's sizes: "Avoid changing the type size; this can affect how components render and reflow." (Google) For editorial sizes (a total that fills the top of the screen), define a separate style outside the scale, like `numeralStyle` below.
 
 ### Google Sans Flex
 
-Open source on [Google Fonts](https://fonts.google.com/specimen/Google+Sans+Flex) (since November 2025) and the typeface most shipped Expressive apps use. Axes: `wght` 1 to 1000, `wdth` 25 to 151, `opsz` 6 to 144, `slnt` -10 to 0, `GRAD` 0 to 100, `ROND` 0 to 100.
+Open source on [Google Fonts](https://fonts.google.com/specimen/Google+Sans+Flex) (since November 2025) and the family most of the shipped Expressive apps sampled for this skill used. Axes: `wght` 1 to 1000, `wdth` 25 to 151, `opsz` 6 to 144, `slnt` -10 to 0, `GRAD` 0 to 100, `ROND` 0 to 100.
 
-Bundle the variable TTF in `res/font/` (downloadable Google Fonts don't carry variation settings). Variation settings apply on API 26+. Because optical size should match each style's size, build the font per text style:
+Bundle the variable TTF in `res/font/` (downloadable Google Fonts don't carry variation settings). Variation settings apply on API 26+. Because optical size should match each style's size, build the font per text style.
+
+Voice starting points (tune them to the screen's direction; they are not presets to copy):
+
+| Voice | Axes (approx.) | Use for |
+| --- | --- | --- |
+| Friendly hero | weight 800 to 900, roundness 100 | The one hero title or number in a warm, playful product |
+| Tall numerals | width 25 to 50; weight 300 off, 800 on | Numbers that fill a card (times, totals, calculators), state through weight |
+| Premium display | width 75 to 90, weight 400 to 600 | Elegant headers and editorial titles |
+| Airy display | weight 100 to 300, large sizes only | Calm headers, inactive states |
+| Wide header | width 125 to 151, weight 500 to 700, roundness 0 | Confident section or dialog titles; never in app bars |
+| Loud expressive | width 151, weight 900, slant -10 | Celebrations and the user's own voice; rare |
+| Text | default axes, weight 400 to 500 | Body and labels; don't vary it |
+
+Code:
 
 ```kotlin
 /** A Google Sans Flex voice: fixed axes, optical size matched to this style's font size. */
@@ -199,7 +213,7 @@ fun numeralStyle(selected: Boolean) =
         .copy(fontFeatureSettings = "tnum")
 ```
 
-- Pick two or three voices from the table in SKILL.md section 5 and apply them consistently; don't invent new axis values per screen.
+- Define two or three voices once per app and apply them consistently; don't invent new axis values per screen.
 - State through axes: selected items heavy (700 to 900), unselected light (200 to 300); keep sizes equal so nothing reflows. `FontVariation.grade(...)` changes emphasis without changing width.
 - Each distinct axis combination is a separate font instance; for animated axes (text that widens as a slider moves), step through a small set of values and keep it to a hero moment.
 - Other voices that pair well: Google Sans Code or Roboto Mono for metadata and timecodes, Roboto Serif for long reading.
@@ -253,7 +267,14 @@ fun MorphingBadge(done: Boolean, modifier: Modifier = Modifier) {
 
 ## Motion
 
-`MotionScheme` has six specs: `defaultSpatialSpec`, `fastSpatialSpec`, `slowSpatialSpec`, `defaultEffectsSpec`, `fastEffectsSpec`, `slowEffectsSpec`. `MotionScheme.expressive()` and `MotionScheme.standard()` are the presets (values in SKILL.md section 7).
+`MotionScheme` has six specs: `defaultSpatialSpec`, `fastSpatialSpec`, `slowSpatialSpec`, `defaultEffectsSpec`, `fastEffectsSpec`, `slowEffectsSpec`. `MotionScheme.expressive()` and `MotionScheme.standard()` are the presets:
+
+| Spec | Expressive (damping / stiffness) | Standard |
+| --- | --- | --- |
+| Fast spatial | 0.6 / 800 | 0.9 / 1400 |
+| Default spatial | 0.8 / 380 | 0.9 / 700 |
+| Slow spatial | 0.8 / 200 | 0.9 / 300 |
+| Effects fast / default / slow | 1.0 / 3800, 1600, 800 | same |
 
 - Override one subtree by nesting `MaterialTheme(motionScheme = MotionScheme.standard()) { ... }` (`LocalMotionScheme` was removed).
 - Reduced motion, Google's pattern:

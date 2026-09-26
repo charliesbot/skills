@@ -30,7 +30,7 @@ Three causes, each fixable:
 Answer these in your reply before any code, a sentence or two each. Skipping this step is what produces generic screens.
 
 1. **Rank the goals.** What is the one primary task on this screen? What is secondary and tertiary? (Google: "Simplifying to one primary task on each page.")
-2. **Choose a direction.** Name the screen's emotional character, the content or interaction that defines it, and one visual idea that ties type, imagery, color, and shape together. Each answer must name a decision ("the total set in tall numerals fills the top third"), not an adjective ("modern, clean").
+2. **Choose a direction.** Name the screen's emotional character, the content or interaction that defines it, and one visual idea that ties type, imagery, color, and shape together. Each answer must name a decision ("the total set in tall numerals fills the top third"), not an adjective ("modern, clean"). If the idea describes how most apps of this type already look, it isn't an idea yet.
 3. **Decide the hero moment.** Is this screen one of the product's one or two hero moments (the most emotional or most central interaction)? If yes, plan how several tactics combine there. If no, keep it calm (Google).
 4. **Choose the color source.** Dynamic (wallpaper), brand (a generated scheme), or content-based (from an image on screen). See section 4.
 5. **Spend emphasis by rank.** The primary goal gets the most, usually size first. Secondary goals get fewer tactics; tertiary ones get containment and type (Google). Content can dominate the screen when it is the product, as long as the primary action stays unmistakable.
@@ -69,7 +69,7 @@ fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable () -> U
 Google's research justifies Expressive through usability, not decoration: participants found key UI elements **up to 4x faster** on expressive screens, and the age gap in finding them nearly disappeared. Emphasis is how people find the primary action.
 
 - **Size is the loudest lever.** "The most important action or the main call to action should be the largest element" (the largest interactive element; a summary card can be physically bigger). Larger key actions measurably reduce errors and improve satisfaction. One focal point per screen: when everything is large, nothing is.
-- **Placement:** put the primary action low and reachable, last in the vertical flow so the eye ends there. Google's email study: moving Send from a small top-bar icon to a larger button just above the keyboard, in `secondary`, made people find it 4x faster. Put the key action where the hands and eyes already are.
+- **Placement:** put the key action where the hands and eyes already are. Google's email study: moving Send from a small top-bar icon to a larger button just above the keyboard, in `secondary`, made people find it 4x faster; Aura's home screen puts its extra-large start button low, last in the vertical flow. Choose the size and position from the interaction and the space the content needs (default): an XL button suits a control-led hero, not every important action.
 - **The primary action gets the strongest fill** (Google: primary roles go to crucial calls to action; filled buttons sparingly). Secondary actions are tonal or standard; toggles like favorite show state with a filled icon or a tonal container, not a second loud fill competing with the main control.
 - **Contrast between roles, not one role everywhere:** `primary` for the main action, `secondary` or `secondaryContainer` for supporting controls, `tertiary` for status or accents. Using `primary` and `primaryContainer` for everything flattens the screen.
 - **Containment:** group related items in containers; give the most important content "ample space and the brightest surface."
@@ -115,13 +115,13 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Never fade text or icons with alpha.** `copy(alpha = ...)` breaks the contrast the pairs guarantee. Lower emphasis is a different role, not a transparent one.
 - **Surfaces:** `surface` for the body, `surfaceContainer` for navigation regions, and the five container levels for nesting. The most important container gets the brightest surface.
 - Dividers use `outlineVariant`; text field borders use `outline`.
-- **Surface steps:** a container must be more than one surface-container step from what it sits on (`surfaceContainerHigh` on `surface`, not on `surfaceContainer`), or it blends in.
+- **Surface steps:** use each component's prescribed surface mapping (search, for example, specifies containers "more than one step apart"; see the components reference). For custom groups, use a surface difference when the boundary needs emphasis; proximity and alignment can group without another fill.
 - **Vibrant** component styles (menus, toolbars) are tertiary-based and "should be used sparingly."
 - Semantic colors (error red, a success green defined as a static color) never come from content color, and keep one meaning everywhere: "if you establish a pattern, repeat it throughout the app." (Google)
 - **Inverse containers** (`inverseSurface` / `inverseOnSurface`) reverse one element out of the screen, like a snackbar or a total next to lighter metric cards.
 - **Color can follow state:** a scheme derived from the app's content or context (the sky in a weather app, album art in a player) is content-based color at screen scale. Offering the seed and palette style (and a pure black dark mode) as user settings is common in shipped Expressive apps.
 - **Strong fills mark the hero or one coherent group** (default). A set of related filled controls can read as one unit; unrelated saturated cards side by side read as noise, not hierarchy.
-- **Category colors** need clearly different hues so each is recognizable at a glance. Two can use `primaryContainer` and `tertiaryContainer` (tertiary sits at a different hue; secondary shares primary's hue at lower chroma, so it reads as the same color); more get a static color each (four roles from one seed, not harmonized, since harmonizing pulls hues together; recipe in [references/theming.md](references/theming.md#extra-colors-semantic-and-categories)), never an improvised hex. Color the badge or icon, not a whole card.
+- **Category colors** need clearly different hues so each is recognizable at a glance. Two can use `primaryContainer` and `tertiaryContainer` (tertiary sits at a different hue; secondary shares primary's hue at lower chroma, so it reads as the same color); more get a static color each (four roles from one seed, not harmonized, since harmonizing pulls hues together; recipe in [references/theming.md](references/theming.md#extra-colors-semantic-and-categories)), never an improvised hex. Color the badge or icon, not a whole card, and give each category one visible color across the screen: every mark of a category (bar segment, legend, badge) uses the same role, not a solid color in one place and its pale container in another.
 - **Charts and data graphics** use the solid roles (`primary`, `secondary`, `tertiary`, a static color's main role), not containers: graphics need 3:1 against their background (Google), and pale containers disappear.
 
 ## 5. Typography
@@ -129,20 +129,10 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - Use the role scale: **Display** for short important text and numerals, **Headline** for short high-emphasis text on phones, **Title** for secondary regions, **Body** for reading, **Label** inside components. Most screens need about five styles; pick sizes with clear contrast between them, not near-duplicates.
 - **Emphasized styles** (`MaterialTheme.typography.displayLargeEmphasized` through `labelSmallEmphasized`) are heavier variants. Components don't use them by default; apply them to the primary button label, selected items, unread items, key numbers, and headlines. "Give extra impact to a headline, or subtly strengthen text of the same size."
 - **Brand typeface on large styles, plain on small:** swap Display and Headline to an expressive face; keep Body and Label highly readable. Never decorative faces on Body or Label; be careful at Title.
-- **Google Sans Flex is the de facto Expressive face.** Open source on Google Fonts since November 2025, it's the typeface most shipped Expressive apps use, and its shapes echo the Material shape library. Six variable axes: weight (1 to 1000), width (25 to 151), optical size (6 to 144), slant (0 to -10), grade (0 to 100), and roundness (`ROND`, 0 to 100). Bundle the variable font and set axes per style ([references/theming.md](references/theming.md#google-sans-flex)).
+- **Google Sans Flex is a strong starting family** (default), not a requirement: it appeared in most of the shipped Expressive apps sampled for this skill, it has been open source on Google Fonts since November 2025, and its shapes echo the Material shape library. Choose the display voice that serves the product's direction. Six variable axes: weight (1 to 1000), width (25 to 151), optical size (6 to 144), slant (0 to -10), grade (0 to 100), and roundness (`ROND`, 0 to 100). Bundle the variable font and set axes per style ([references/theming.md](references/theming.md#google-sans-flex)).
 - **Axes carry feeling and meaning.** Google describes weight as ranging from "calm as a whisper" to "loud and rugged" and roundness as "personal, playful." In their research with 3,000+ readers, taller, more elegant (narrower) styles read as more premium and engaging. Axes also carry state: heavy in a filled container for the selected item, light for the rest, at the same size so nothing reflows. Grade adds emphasis without changing width.
 - **Always match optical size to the text size.** It reshapes letters to stay legible at every size; one setting across Display and Label hurts both. Set `opsz` per style (see the theming reference).
-- **Pick voices, not random axis values.** Define each voice once as a style and reuse it; two or three per app, each with one job:
-
-| Voice | Axes (approx.) | Use for |
-| --- | --- | --- |
-| Friendly hero | weight 800 to 900, roundness 100 | The one hero title or number in a warm, playful product |
-| Tall numerals | width 25 to 50; weight 300 off, 800 on | Numbers that fill a card (times, totals, calculators), state through weight |
-| Premium display | width 75 to 90, weight 400 to 600 | Elegant headers and editorial titles |
-| Airy display | weight 100 to 300, large sizes only | Calm headers, inactive states |
-| Wide header | width 125 to 151, weight 500 to 700, roundness 0 | Confident section or dialog titles; never in app bars |
-| Loud expressive | width 151, weight 900, slant -10 | Celebrations and the user's own voice; rare |
-| Text | default axes, weight 400 to 500 | Body and labels; don't vary it |
+- **Pick voices, not random axis values.** Define each voice once as a style and reuse it; two or three per app, each with one job. Starting points for Google Sans Flex voices are in [references/theming.md](references/theming.md#google-sans-flex); tune them to the direction rather than copying the nearest preset.
 
 - **Other voices:** Google Sans Code (or Roboto Mono) for code, metadata, and timecodes; Google Sans Mono only at medium and large editorial sizes, never for code. Roboto Serif for long reading.
 - **Editorial treatments** let type dominate a hero moment: a huge number, an album title over a photo, text that widens as a slider rises. Keep them consistent, match the emotion (narrow and light for calm, bold and wide for energy), and never use them for labels.
@@ -157,7 +147,7 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Tension creates focus.** Mix round and square; "break from the surrounding shape style to draw attention to a particular element." Material "historically focused on rounded shapes"; sharp contrast is more memorable.
 - **Shape signals state.** Expressive buttons, icon buttons, toggles, and list items morph on press and selection (round to square or back). Use the components' `shapes` parameters to get this for free.
 - **The shape library** (`MaterialShapes`: Cookie9Sided, Sunny, Flower, Clover4Leaf, Burst, Pill, Heart, and 28 more) is for avatars, image crops, decorative graphics, achievements, and a bespoke hero button. Not for text-heavy containers. "Shapes without clear meaning... add more visual clutter than delight."
-- **Uniform within a group:** related data (metrics, calendar days) uses the same shape and size, evenly spaced, without overlap (Google). Decorative layering, such as type over an image, is fine when controls and text stay clear.
+- **Uniform among peers:** equally important data meant for comparison (metrics, calendar days) uses the same shape and size, evenly spaced, without overlap (Google: "Use uniform shapes and sizes"). Vary scale or form when the data has a deliberate hierarchy, keeping items aligned and comparable. Decorative layering, such as type over an image, is fine when controls and text stay clear.
 - **Optical roundness:** nested radius = outer radius minus padding (28dp card with 12dp padding holds 16dp corners).
 - Grouped items use small inner corners and large outer ones (segmented lists: 4dp inner, 16dp outer; selected morphs to 16dp all around).
 
@@ -183,13 +173,7 @@ val tint by animateColorAsState(if (selected) colors.primary else colors.surface
     MaterialTheme.motionScheme.defaultEffectsSpec())
 ```
 
-| Spec | Expressive (damping / stiffness) | Standard |
-| --- | --- | --- |
-| Fast spatial | 0.6 / 800 | 0.9 / 1400 |
-| Default spatial | 0.8 / 380 | 0.9 / 700 |
-| Slow spatial | 0.8 / 200 | 0.9 / 300 |
-| Effects fast / default / slow | 1.0 / 3800, 1600, 800 | same |
-
+- Spring values for both schemes: [references/theming.md](references/theming.md#motion).
 - **Expressive** is the default choice and belongs on hero moments. **Standard** suits utilitarian products. Override a subtree by nesting `MaterialTheme(motionScheme = ...)`.
 - Springs are interruptible and carry velocity when retargeted; never lock input during an animation.
 - **Screen transitions stay simple.** Bounce belongs to components and hero moments. Use container transform for card or list item to detail (the most expressive transition), forward/backward (slide plus fade) for hierarchy, fade-through for top-level destinations. Fade content out fully before fading new content in; don't fade bottom sheets.
@@ -216,18 +200,7 @@ Components are the last step. Compose from the direction in section 0 and the co
 
 Keep familiar patterns underneath (section 3): the composition is new, the interaction model is not.
 
-### Patterns from shipped Expressive apps
-
-Recurring moves in Google's showcases and well-reviewed Expressive apps. They are options that apply the principles above, not a checklist: use one only when it serves the screen's direction.
-
-- **Metric card:** a small label over a huge emphasized number in a tinted container; the number is the hero, the label whispers.
-- **Editorial header:** a Display or custom-width title that dominates the top of a screen or sits over a full-bleed photo (an album or trip cover).
-- **Shape-masked media:** album art, avatars, and badges clipped to library shapes (Cookie, Flower, Sunny, Clover), sometimes clustered for groups.
-- **Pill hero control:** a full-width pill primary action paired with smaller round secondary buttons (Play with skip; Pause with Stop and Restart). Toggles beside it (like, shuffle, repeat) are standard icon toggles: selected shows a filled icon in `primary`, never a filled container, so the pill stays the only strong fill.
-- **Split action pair:** two large half-width pills in contrasting colors for a two-way decision (Snooze and Stop), or a wide pill beside a round button (Stop with Pause).
-- **Floating pill toolbar** at the bottom holding the page's actions (or local navigation), with the active item as a filled pill.
-- **Segmented settings:** grouped list items with gaps, leading icons in tonal circles, switches with check and close thumb icons (`Switch(thumbContent = ...)`).
-- **Wavy progress** for playback and goals; circular wavy progress for countdowns.
+Patterns seen in shipped Expressive apps (metric card, editorial header, pill hero control, and others) are in [references/components.md](references/components.md#patterns-from-shipped-expressive-apps). Read them for examples after choosing the composition, not to choose it.
 
 ## 9. Components: use the Expressive versions
 
@@ -273,14 +246,14 @@ Google's brand examples keep behavior intact and add one subtle touch: a custom 
 
 ## 12. Android conventions
 
-Material says how components look; Android's own design guides say how an app behaves on the platform. Generated code often carries iOS habits instead:
+Material says how components look; Android's own design guides say how an app behaves on the platform. Generated code often carries iOS habits instead (Google, "10 steps to Android"):
 
 | iOS habit | Android |
 | --- | --- |
-| Centered navigation title | Left-aligned title; large titles are flexible app bars that collapse on scroll |
-| Back chevron, "Cancel" and "Done" text buttons | Up arrow for hierarchy (system back handles "back"); a close icon to dismiss; the confirming action in the full-screen dialog's app bar |
+| Centered navigation title by habit | Start-aligned title by default (centered is valid when the composition calls for it); large titles are flexible app bars that collapse on scroll |
+| Back chevron; "Cancel" and "Done" text in the top bar | Up arrow for hierarchy (system back handles "back"); a close icon to dismiss full-screen modals, with the confirming action in their app bar. Dialogs keep their labeled text buttons |
 | Action sheets | Bottom sheets |
-| Segmented control switching views | Tabs; a connected button group only for choosing an option |
+| Segmented control | Tabs for peer content destinations; a connected button group for options or view modes within one screen |
 | Table rows with disclosure chevrons and hairline dividers | List items without chevrons, grouped with gaps (section 8) |
 | SF Symbols | Material Symbols, one style (outlined, rounded, or sharp) app-wide |
 
@@ -301,12 +274,14 @@ Look at the rendered screen, not the code. Capture it with `android screen` (see
 
 - Is the hierarchy obvious at first glance: does the eye land on the primary goal?
 - What gives the screen its character, and does every expressive choice serve the direction from section 0?
-- Is most of the screen calm surface, with accents on elements that have a job?
+- Does the distribution of color reinforce the hierarchy and the atmosphere, with accents on elements that have a job?
 - Are supporting content and actions still easy to find and use?
 - Does it hold up with real content lengths, 200% text, and a smaller window?
 - Would it still be clear with the expressive flourishes removed?
 
 If the screen could pass for the Material component catalog, it isn't done.
+
+When the render contradicts the direction or the hierarchy, fix the largest mismatch and capture it again before finishing. For stateful screens, also capture the alternate state that changes emphasis or layout (playing and paused, selected and unselected, empty and populated).
 
 Code checks, separately:
 
@@ -314,14 +289,14 @@ Code checks, separately:
 - [ ] Components from the right column of section 9's table.
 - [ ] Text and icons use their intended role pairs: no `copy(alpha = ...)`, no hard-coded hex colors.
 - [ ] Custom animations use `MaterialTheme.motionScheme`, not `tween()`.
-- [ ] No iOS habits (centered title, chevron rows, Cancel/Done text); content drawn edge-to-edge.
+- [ ] Navigation, dismissal, and selection match the chosen Android component's semantics (section 12); content drawn edge-to-edge.
 
 ## Quick reference
 
 | Need | Technique | Value / API |
 | --- | --- | --- |
 | Expressive defaults | Expressive theme | `MaterialExpressiveTheme(motionScheme = MotionScheme.expressive())`, material3 1.5.0-alpha+ |
-| Primary action | Largest, strongest contrast, low on screen | XL button 136dp, `ButtonDefaults.shapesFor(ButtonDefaults.ExtraLargeContainerHeight)`, `primary` |
+| Primary action | Largest interactive element, strongest fill, where the hands already are | `ButtonDefaults.shapesFor(height)` at the size the context needs (XS 32 to XL 136dp), `primary` |
 | Hierarchy by color | Role contrast | `primary` action, `secondary` selection, `tertiary` accent, `on*` pairs |
 | Key text | Emphasized type | `typography.headlineLargeEmphasized` |
 | Hero numbers | Display plus tabular figures | `displayLarge` + `fontFeatureSettings = "tnum"` |
@@ -336,7 +311,7 @@ Code checks, separately:
 ## References
 
 - [references/theming.md](references/theming.md): read when setting up or changing a theme, color scheme, type scale, shapes, motion scheme, or spacing.
-- [references/components.md](references/components.md): read when choosing a component or writing one you haven't used in this session.
+- [references/components.md](references/components.md): read when choosing a component or writing one you haven't used in this session; its patterns section after choosing the composition.
 - [references/layout.md](references/layout.md): read when a screen must adapt to tablets, foldables, landscape, or desktop windows, or support mouse and keyboard.
 - [references/widgets.md](references/widgets.md): read before designing or reviewing a home screen widget.
 - [references/wear-os.md](references/wear-os.md): read before designing any Wear OS screen or tile.

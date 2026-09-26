@@ -13,7 +13,7 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | 2 to 6 related actions behind the FAB | FAB menu | Only from a regular FAB; not with a toolbar or rail; color set matches the FAB |
 | Discrete actions | Buttons: elevated, filled, tonal, outlined, text; XS to XL; round or square | Don't overuse; three at most in one arrangement; primary action gets more size, color, or shape |
 | Related buttons that react together | Standard button group | Same size and shape by default; mixed sizes only for hero moments; different shape only for selection or meaning |
-| Choose an option or switch views | Connected button group | Items must be toggleable; one color style for the whole group |
+| Choose an option or a view mode within one screen | Connected button group | Items must be toggleable; one color style for the whole group |
 | Main action plus alternatives | Split button | Menu aligned to the trailing half, 4dp away |
 | Common icon actions | Icon buttons: filled, tonal, outlined, standard; XS 32 to XL 136dp; narrow, uniform, wide | Filled sparingly; equally important buttons share a size; outlined icon when off, filled when toggled on |
 | Contextual choices, filters, entered items | Chips: assist, filter, input, suggestion | Never for Save or Cancel; always in a set; can scroll horizontally |
@@ -66,6 +66,19 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 - Hint text names what is searchable: "Search your messages," not "Search."
 - Results and suggestions are lists: add leading icons, category labels (Recent, Contacts), avatars, filter chips, and gaps between groups.
 - Full-screen results on compact, docked results on medium and up; keep the query visible after searching.
+
+## Patterns from shipped Expressive apps
+
+Recurring moves in Google's showcases and well-reviewed Expressive apps. Read them for examples after choosing the composition (SKILL.md section 8), not to choose it; use one only when it serves the screen's direction.
+
+- **Metric card:** a small label over a huge emphasized number in a tinted container; the number is the hero, the label whispers.
+- **Editorial header:** a Display or custom-width title that dominates the top of a screen or sits over a full-bleed photo (an album or trip cover).
+- **Shape-masked media:** album art, avatars, and badges clipped to library shapes (Cookie, Flower, Sunny, Clover), sometimes clustered for groups.
+- **Pill hero control:** a full-width pill primary action paired with smaller round secondary buttons (Play with skip; Pause with Stop and Restart). Toggles beside it (like, shuffle, repeat) can be standard, tonal, or filled as long as their state stays clear and the main action stays distinguishable.
+- **Split action pair:** two large half-width pills in contrasting colors for a two-way decision (Snooze and Stop), or a wide pill beside a round button (Stop with Pause).
+- **Floating pill toolbar** at the bottom holding the page's actions (or local navigation), with the active item as a filled pill.
+- **Segmented settings:** grouped list items with gaps, leading icons in tonal circles, switches with check and close thumb icons (`Switch(thumbContent = ...)`).
+- **Wavy progress** for playback and goals; circular wavy progress for countdowns.
 
 ## Expressive API map
 
@@ -128,7 +141,7 @@ Scaffold(
 ) { padding -> /* content */ }
 ```
 
-### Sized, morphing primary button
+### XL control-led hero button
 
 ```kotlin
 val height = ButtonDefaults.ExtraLargeContainerHeight
