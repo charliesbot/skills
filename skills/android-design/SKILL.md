@@ -54,7 +54,7 @@ fun AppTheme(dark: Boolean = isSystemInDarkTheme(), content: @Composable () -> U
     MaterialExpressiveTheme(
         colorScheme = colorScheme,
         motionScheme = MotionScheme.expressive(),
-        typography = AppTypography, // brand typeface on large styles, see section 5
+        typography = AppTypography, // Google Sans Flex voices, see section 5
         content = content,
     )
 }
@@ -128,8 +128,8 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 
 - Use the role scale: **Display** for short important text and numerals, **Headline** for short high-emphasis text on phones, **Title** for secondary regions, **Body** for reading, **Label** inside components. Most screens need about five styles; pick sizes with clear contrast between them, not near-duplicates.
 - **Emphasized styles** (`MaterialTheme.typography.displayLargeEmphasized` through `labelSmallEmphasized`) are heavier variants. Components don't use them by default; apply them to the primary button label, selected items, unread items, key numbers, and headlines. "Give extra impact to a headline, or subtly strengthen text of the same size."
-- **Brand typeface on large styles, plain on small:** swap Display and Headline to an expressive face; keep Body and Label highly readable. Never decorative faces on Body or Label; be careful at Title.
-- **Google Sans Flex is a strong starting family** (default), not a requirement: it appeared in most of the shipped Expressive apps sampled for this skill, it has been open source on Google Fonts since November 2025, and its shapes echo the Material shape library. Choose the display voice that serves the product's direction. Six variable axes: weight (1 to 1000), width (25 to 151), optical size (6 to 144), slant (0 to -10), grade (0 to 100), and roundness (`ROND`, 0 to 100). Bundle the variable font and set axes per style ([references/theming.md](references/theming.md#google-sans-flex)).
+- **Use Google Sans Flex for every style** (this skill's standard, not a Google requirement). It is open source on Google Fonts since November 2025, most of the shipped Expressive apps sampled for this skill use it, and its shapes echo the Material shape library. Six variable axes: weight (1 to 1000), width (25 to 151), optical size (6 to 144), slant (0 to -10), grade (0 to 100), and roundness (`ROND`, 0 to 100). Bundle the variable font and set axes per style ([references/theming.md](references/theming.md#google-sans-flex)).
+- **Expressive voices on large styles, the text voice on small:** give Display and Headline the voice that serves the direction; keep Body and Label on default axes so they stay highly readable. Be careful at Title.
 - **Axes carry feeling and meaning.** Google describes weight as ranging from "calm as a whisper" to "loud and rugged" and roundness as "personal, playful." In their research with 3,000+ readers, taller, more elegant (narrower) styles read as more premium and engaging. Axes also carry state: heavy in a filled container for the selected item, light for the rest, at the same size so nothing reflows. Grade adds emphasis without changing width.
 - **Always match optical size to the text size.** It reshapes letters to stay legible at every size; one setting across Display and Label hurts both. Set `opsz` per style (see the theming reference).
 - **Pick voices, not random axis values.** Define each voice once as a style and reuse it; two or three per app, each with one job. Starting points for Google Sans Flex voices are in [references/theming.md](references/theming.md#google-sans-flex); tune them to the direction rather than copying the nearest preset.
@@ -285,7 +285,7 @@ When the render contradicts the direction or the hierarchy, fix the largest mism
 
 Code checks, separately:
 
-- [ ] `MaterialExpressiveTheme` with the color source from section 4.
+- [ ] `MaterialExpressiveTheme` with the color source from section 4, and Google Sans Flex on every text style.
 - [ ] Components from the right column of section 9's table.
 - [ ] Text and icons use their intended role pairs: no `copy(alpha = ...)`, no hard-coded hex colors.
 - [ ] Custom animations use `MaterialTheme.motionScheme`, not `tween()`.
