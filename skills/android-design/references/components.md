@@ -38,6 +38,11 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 
 Usage rules from each component's Guidelines tab on m3.material.io (quotes are Google's). Read the section for every component you place.
 
+### States on containers
+
+- Containers never take interaction states; their actionable children do: "The individual components that are actionable within the app bar inherit hover states, not the whole app bar." No hover or pressed on app bars, dialogs, menus, sheets, navigation bars, or tabs as a whole; don't put `clickable` on those containers.
+- Disabled applies to buttons, cards, checkboxes, chips, list items, radios, switches, and text fields. App bars, dialogs, menus, sheets, navigation, tabs, and FABs are never disabled: hide an unavailable FAB.
+
 ### Choosing emphasis across buttons
 
 - "Each screen should contain a single prominent button for the primary action." Emphasis order: FAB, then filled, tonal, elevated, outlined, text; icon buttons filled, tonal, outlined, standard.
@@ -103,6 +108,7 @@ Usage rules from each component's Guidelines tab on m3.material.io (quotes are G
 
 - Dialogs for "critical information that requires a specific user task, decision, or acknowledgement," used "sparingly"; low-priority messages go to a snackbar. At most two actions, confirm at the trailing edge; headlines never apologize or ask "Are you sure?"
 - Full-screen dialogs only on compact windows, for multi-step or input-heavy tasks: close icon and a "Save" action.
+- Confirm labels say what happens: "Send," "Create," "Delete"; never "OK," "Done," or "Close." Don't disable a full-screen dialog's confirm action; show all errors at once instead. Dismissing a full-screen dialog with unsaved changes asks "Discard?" in a basic dialog.
 - Bottom sheets hold supplementary content on phones; modal sheets replace long menus or simple dialogs. Side sheets hold optional content on medium windows and up and always show a close button.
 
 ### Chips
@@ -135,6 +141,7 @@ Usage rules from each component's Guidelines tab on m3.material.io (quotes are G
 - Supporting text: one to three lines. Trailing text for price, count, or date. Leading or trailing checkbox (multi-select), radio (single-select), or switch (settings).
 - Primary action takes most of the row; secondary actions (bookmark, overflow) go trailing.
 - Show selection with two cues, never color alone (a checkmark plus a fill).
+- **One selection mode per list:** single-action items (the whole row does one thing) have no nested actions and no persistent selection; single-select items use radios, never checkboxes, and have no nested actions; multi-select items use checkboxes or switches, never radios. One selection control per item (not a checkbox plus a bookmark). In Compose the role covers the whole row: `SegmentedListItem`'s `checked` overload for multi-select, `Modifier.selectable(role = Role.RadioButton)` or `Modifier.toggleable(role = Role.Checkbox)` on custom rows, and switch rows as below. Focus lands on the selected item.
 - Swipe reveals mixed-style buttons with the primary action last; a full swipe triggers it; always offer another path (overflow).
 - Settings rows with a switch: use the `onClick` overload of `SegmentedListItem` with a trailing `Switch(checked, onCheckedChange = null)` (clicking the row toggles it), and give the row `Modifier.semantics { role = Role.Switch; toggleableState = ToggleableState(checked) }` so TalkBack announces one switch instead of a button plus a switch. The `checked` overload gives the whole row a checkbox role and a selected fill.
 - Segmented items must stand off their background: on a `surface` page, pass `colors = ListItemDefaults.segmentedColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh)`.
@@ -148,6 +155,7 @@ Usage rules from each component's Guidelines tab on m3.material.io (quotes are G
 - Slots (image, swatch, progress) only for simple content; never a button or switch inside an item.
 - On compact screens, long or complex menus can become a bottom sheet; on larger screens, menus stay in context and can use submenus.
 - The trigger keeps its look and shows a pressed state while the menu is open.
+- Multi-select menus stay open until dismissed; single-select and action menus close on selection. Disabled items stay focusable but not selectable.
 
 ### Search
 
@@ -157,6 +165,7 @@ Usage rules from each component's Guidelines tab on m3.material.io (quotes are G
 - Hint text names what is searchable: "Search your messages," not "Search."
 - Results and suggestions are lists: add leading icons, category labels (Recent, Contacts), avatars, filter chips, and gaps between groups.
 - Full-screen results on compact, docked results on medium and up; keep the query visible after searching.
+- Back releases focus, dismisses suggestions and results, and returns the bar to its resting state. Label results ("Results") so it's clear search is active, and announce new results to screen readers (a live region on the results list). Cap the bar at 720dp wide.
 
 ## Patterns from shipped Expressive apps
 

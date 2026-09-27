@@ -177,7 +177,7 @@ val tint by animateColorAsState(if (selected) colors.primary else colors.surface
 - Spring values for both schemes: [references/theming.md](references/theming.md#motion).
 - **Expressive** is the default choice and belongs on hero moments. **Standard** suits utilitarian products. Override a subtree by nesting `MaterialTheme(motionScheme = ...)`.
 - Springs are interruptible and carry velocity when retargeted; never lock input during an animation.
-- **Screen transitions stay simple.** Bounce belongs to components and hero moments. Use container transform for card or list item to detail (the most expressive transition), forward/backward (slide plus fade) for hierarchy, fade-through for top-level destinations. Fade content out fully before fading new content in; don't fade bottom sheets.
+- **Screen transitions stay simple.** Bounce belongs to components and hero moments. Use container transform for card or list item to detail only in hero moments and shallow hierarchies ("Don't use container transform in apps with deep hierarchies"); platform-default forward/backward for everyday hierarchy; a quick fade between top-level destinations, never a lateral slide (it conflicts with carousel and list gestures). (Google) Fade content out fully before fading new content in; don't fade bottom sheets.
 - **Reduced motion:** swap to a scheme whose specs `snap()` (Google's own pattern) and drop decorative morphs and parallax; keep meaningful fades.
 
 ## 8. Containment, spacing, and layout
@@ -242,7 +242,7 @@ Google's brand examples keep behavior intact and add one subtle touch: a custom 
 
 - Contrast 4.5:1 for small text and 3:1 for large text, icons, and controls. Correct role pairs give this automatically, including in medium and high contrast modes; generated or hand-made schemes must read the system contrast setting ([references/theming.md](references/theming.md#contrast-levels)).
 - Never rely on color alone: states and links also get an icon, label, or underline.
-- Touch targets 48dp with 8dp between them. Support 200% text scaling: text grows, padding doesn't, layouts reflow.
+- Touch targets 48dp with 8dp between them. Support 200% text scaling: text grows, padding doesn't, layouts reflow. Icons, checkboxes, and progress indicators never scale with text. An ellipsis is acceptable only when the full text is reachable (tooltip, link, or expanded view); otherwise wrap (Google).
 - Content descriptions state purpose ("Voice search"), not appearance, and never the role.
 - Sentence case, second person, no periods on single-sentence labels, contractions, exclamation points only for real celebrations.
 
@@ -262,7 +262,7 @@ Material says how components look; Android's own design guides say how an app be
 - **Edge-to-edge:** backgrounds, images, and scrolling content draw behind the system bars; text and controls stay inset. The gesture bar stays transparent. The status bar is transparent unless content scrolls under it, then it gets one protection (Material top app bars already provide it). No tap targets inside the system gesture insets. Pin text inputs above the keyboard. Implementation: the `edge-to-edge` skill.
 - **Settings:** only infrequent preferences; frequent ones sit next to their feature. App version, licenses, and account management get their own destinations, not settings rows. The overview shows each setting's current value; 15 or more settings means subscreens whose titles match the row that opened them. Labels lead with the important word and avoid generic verbs (Set, Change, Manage, Use). A switch for on/off, never a lone radio button. Place "Settings" in secondary navigation, after everything except "Help & feedback."
 - **Onboarding and sign-in:** show value before asking for permissions or an account; ask for a permission at the moment it's needed, after explaining why; every intro step is skippable. Passkeys first ("Create a passkey," "Sign in"), with recovery always visible.
-- **Notifications:** only timely value (never promotions, "we miss you," or rating requests). Title under 30 characters, text under 40, up to three actions, a large icon only when it adds content (circular for a person, square otherwise), never for branding.
+- **Notifications:** only timely value (never promotions, "we miss you," or rating requests). Title under 30 characters, text under 40, up to three actions, a large icon only when it adds content (circular for a person, square otherwise), never for branding. Pick channel importance honestly (HIGH only for time-critical messages, calls, alarms), and a tap must open the screen that notification is about.
 - **Never lock orientation or theme:** support landscape, resizing, and light and dark.
 - **Widgets:** read [references/widgets.md](references/widgets.md) before designing one.
 

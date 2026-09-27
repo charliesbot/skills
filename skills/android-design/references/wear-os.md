@@ -45,7 +45,7 @@ fun WearAppTheme(content: @Composable () -> Unit) {
 
 ## Color
 
-- **Build from black.** App backgrounds are black; tiles never use full-bleed images or color.
+- **Build from black, dark theme only:** "Wear OS uses only the dark theme." App backgrounds are black; tiles never use full-bleed images or color. Container roles are fills, never text or icon colors.
 - Dynamic themes come from two watch-face seed colors (primary and tertiary) and meet WCAG AAA. Pair only `X` with `onX`.
 - Each accent has base, **dim**, and container roles. Primary: the main action and edge button. PrimaryDim: distinct but not demanding. Secondary: supporting actions in dense UI. Tertiary: standout feedback (tap responses, a goal reached). ErrorDim: emergencies and stop buttons.
 - Recommended pairings: Primary with PrimaryDim (main plus complementary); PrimaryDim with Tertiary (highlight plus feedback); Primary with SecondaryContainer (main stands out, rest recedes); Tertiary plus Primary with SecondaryContainer when there's no single main action.
@@ -56,7 +56,7 @@ fun WearAppTheme(content: @Composable () -> Unit) {
 - Roboto Flex everywhere. Weight and width are the useful axes: narrow width fits long names and numbers; no wide type in headers; no very light weights at small sizes.
 - Roles: `display*` (hero information and metrics), `title*` (wayfinding), `label*` (inside components), `bodyLarge` to `bodyExtraSmall`, `numeralExtraLarge` to `numeralExtraSmall` (a few digits that need no localization, tabular by default, can take expressive width), `arcLarge/Medium/Small` (curved text at the top or bottom edge).
 - Curved text: `curvedText(text, style = MaterialTheme.typography.arcMedium)` inside a `CurvedScope`.
-- Line height about 1.1x. Nothing 20sp and up scales with the user font setting; check the largest and smallest settings.
+- Line height about 1.1x. Display, numeral, and `labelLarge` styles never scale with the user font setting; title, other label, body, and arc styles scale up to 20sp. Test those at the largest and smallest settings.
 
 ## Layout
 
@@ -65,6 +65,8 @@ fun WearAppTheme(content: @Composable () -> Unit) {
 - Design for the smallest round screen first (204 to 216dp; check 192dp with large fonts). **Breakpoint at 225dp:** add value past it (more content, bigger controls, the tile title). A larger screen must never show less. Don't stretch or scale up components; don't enlarge fonts unless they're graphic.
 - Non-scrolling screens (media, pickers, timers, dialogs): top, middle, bottom sections, the middle stretching; prefer icon buttons over wide pills; show data graphically.
 - Elevate unambiguous primary actions to the top of long scrolling pages; label sections in long mixed lists.
+- **Rotary input:** on non-scrolling screens with limited space (steppers, pickers, players), let the crown control the main value; tapping alone is not enough.
+- **One prominent action per screen;** other actions use lower-emphasis styles.
 
 ## Expressive components
 
@@ -84,7 +86,7 @@ Custom `TransformationSpec` effects (rotating or morphing items at the edges) ar
 - **Always-on:** few lit pixels; drop frequently updating progress.
 - **Haptics:** strong for key moments (payment confirmed), subtle for precision (scrolling), synced with motion.
 - **Priorities across surfaces:** complication answers the top question (weather now), the tile adds the next (today), the app holds the rest (hourly, preferences). Notifications only when worth buzzing the wrist.
-- **Tiles:** one task per tile (separate goals and workout tiles); show data age when cached ("45 min ago").
+- **Tiles:** one task per tile (separate goals and workout tiles); show data age when cached ("45 min ago"). One slot-based layout (title, main, bottom). Choose the content by goal: text plus one clear action, up to 5 related action buttons, one key metric around a progress ring, or a glanceable graph. A tile for an ongoing activity shows it is running, and tapping opens it: "Don't start a new instance." 
 - **Watch faces:** time first, black as the main color, stay inside the bezel; always-on lights 15% or less of the pixels.
 - **Gestures (Wear OS 7):** double pinch triggers the screen's one primary action, wrist turn dismisses; every gesture action must also have a visible button.
 
@@ -97,4 +99,5 @@ Custom `TransformationSpec` effects (rotating or morphing items at the edges) ar
 - **Clipping:** test with Bold text, larger text, and long languages; calls to action fit the smallest screen; compact chips beat cards in dense layouts.
 - **Offline:** an indicator at the top when features are unavailable (gray them out or hide them), at the end of a list when nothing more can load.
 - **Sign-in:** passkeys through Credential Manager first, at least two methods total; sign-in-only apps ask immediately, others wait until needed and explain the benefit.
-- **Dialogs:** alerts are full-screen interruptions, used sparingly, with text left-aligned past three lines. Confirmations only acknowledge a finished action; they never ask a question.
+- **Dialogs:** alerts are full-screen interruptions, used sparingly, with text left-aligned past three lines. Confirmations only acknowledge a finished action; they never ask a question. Usually skip them: "A visible change in the UI is enough to show that an action succeeded."
+- **Swipe to reveal** (delete, archive in lists): a partial left swipe reveals a primary and optional secondary action; a swipe past 75% commits the primary; destructive actions leave an undo chip.
