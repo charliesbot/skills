@@ -262,9 +262,9 @@ Feature modules just provide `@Composable` screens. Platform shells call those s
 
 ## Theme
 
-By default each platform shell defines its own theme that wraps `MaterialTheme` with dynamic colors. `:core:designsystem:common` is resources only (drawables + value resources), not Compose code — so themes don't live there.
+By default each platform shell defines its own Material 3 Expressive theme with dynamic colors. `:core:designsystem:common` is resources only (drawables + value resources), not Compose code, so themes don't live there. For theme design (brand color schemes, typography, shapes, motion), load the `android-design` skill.
 
-`:app` theme uses Material 3 + `dynamicLightColorScheme()` / `dynamicDarkColorScheme()`:
+`:app` theme uses `MaterialExpressiveTheme` (material3 1.5.0-alpha or later) with `dynamicLightColorScheme()` / `dynamicDarkColorScheme()`:
 
 ```kotlin
 @Composable
@@ -276,18 +276,23 @@ fun AppTheme(
     val colorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     } else {
-        if (darkTheme) darkColorScheme() else lightColorScheme()
+        if (darkTheme) darkColorScheme() else expressiveLightColorScheme()
     }
-    MaterialTheme(colorScheme = colorScheme, content = content)
+    MaterialExpressiveTheme(colorScheme = colorScheme, motionScheme = MotionScheme.expressive(), content = content)
 }
 ```
 
-`:wear` theme uses Wear Material 3 (Wear OS 6+ supports dynamic color via the system theme):
+`:wear` theme uses Wear Material 3 with watch-face dynamic color and expressive motion (Wear's `MaterialTheme` defaults to standard motion):
 
 ```kotlin
 @Composable
 fun WearAppTheme(content: @Composable () -> Unit) {
-    androidx.wear.compose.material3.MaterialTheme(content = content)
+    val context = LocalContext.current
+    MaterialTheme(
+        colorScheme = dynamicColorScheme(context) ?: ColorScheme(),
+        motionScheme = MotionScheme.expressive(),
+        content = content,
+    )
 }
 ```
 
