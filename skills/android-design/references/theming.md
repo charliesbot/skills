@@ -76,7 +76,7 @@ Decode a small thumbnail for extraction, not the full image. MaterialKolor 5.x i
 | `primary` / `onPrimary` | The most important action and active states |
 | `primaryContainer` / `onPrimaryContainer` | Standout fills (FAB, selected hero element) |
 | `secondary`, `secondaryContainer` | Supporting controls, selection, tonal buttons, filter chips |
-| `tertiary`, `tertiaryContainer` | Contrasting accents: status, badges, progress, delight; vibrant menus and toolbars |
+| `tertiary`, `tertiaryContainer` | Contrasting accents: status, badges, progress, delight; vibrant menus (vibrant toolbars use `primaryContainer`) |
 | `error`, `errorContainer` | Errors (static in every scheme) |
 | `surface`, `surfaceContainerLowest` to `surfaceContainerHighest` | Body background, then nested containers by emphasis; nav areas use `surfaceContainer` |
 | `onSurface`, `onSurfaceVariant` | Default text; lower-emphasis text and icons |

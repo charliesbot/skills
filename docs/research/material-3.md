@@ -1012,8 +1012,9 @@ Principles:
   Use contrasting hues for different kinds of things (action vs status vs
   data).
 - The most important content gets the brightest surface.
-- **Vibrant** component styles (menus, toolbars) map to tertiary; "should be
-  used sparingly."
+- **Vibrant** component styles are high emphasis: vibrant menus map to
+  tertiary ("Vibrant menus are more prominent, and should be used
+  sparingly"); vibrant toolbars use primary container.
 
 ## Typography (Expressive)
 

@@ -116,7 +116,7 @@ Their v1-to-v2 lesson: ungrouped settings of similar size and inconsistent color
 - **Surfaces:** `surface` for the body, `surfaceContainer` for navigation regions, and the five container levels for nesting. The most important container gets the brightest surface.
 - Dividers use `outlineVariant`; text field borders use `outline`.
 - **Surface steps:** use each component's prescribed surface mapping (search, for example, specifies containers "more than one step apart"; see the components reference). For custom groups, use a surface difference when the boundary needs emphasis; proximity and alignment can group without another fill.
-- **Vibrant** component styles (menus, toolbars) are tertiary-based and "should be used sparingly."
+- **Vibrant** component styles are high emphasis; use them sparingly ("Vibrant menus are more prominent, and should be used sparingly"). Vibrant menus are tertiary-based; vibrant toolbars use `primaryContainer` ([references/components.md](references/components.md#toolbars)).
 - Semantic colors (error red, a success green defined as a static color) never come from content color, and keep one meaning everywhere: "if you establish a pattern, repeat it throughout the app." (Google)
 - **Inverse containers** (`inverseSurface` / `inverseOnSurface`) reverse one element out of the screen, like a snackbar or a total next to lighter metric cards.
 - **Color can follow state:** a scheme derived from the app's content or context (the sky in a weather app, album art in a player) is content-based color at screen scale. Offering the seed and palette style (and a pure black dark mode) as user settings is common in shipped Expressive apps.
@@ -222,7 +222,7 @@ Stock code reaches for the left column. Lint won't flag it.
 | One-size buttons | Sized, morphing buttons (XS 32 to XL 136dp) | `Button(shapes = ButtonDefaults.shapesFor(height))` |
 
 - **App bar vs toolbar:** "Where app bar supports navigation, toolbar provides critical actions for the current page." App bars get one action (two at most), boosted with a filled or tonal icon button; many actions go in a toolbar. Never show a toolbar and a navigation bar together.
-- **Page controls go in a toolbar, not loose text buttons.** A few actions for the current page (lyrics and queue in a player) belong in a floating toolbar, or in the app bar within its one or two actions: Google's toolbar is for "actions related to the current page." Toggles that belong to a hero control (shuffle and repeat beside Play) stay with it.
+- **Page controls go in a toolbar, not loose text buttons.** Actions for the current page (lyrics and queue in a player) go in a floating toolbar of icon buttons, or in the app bar within its one or two actions. A floating toolbar can instead be local navigation when the selection swaps the content in place: labeled items with one selected. Decide by what the controls do; details in [references/components.md](references/components.md#toolbars).
 - **One FAB per screen** for the single most important action; not every screen needs one.
 - **Button groups:** same size and shape by default; mixed sizes only in hero moments.
 - Component selection, usage rules, and code: [references/components.md](references/components.md).

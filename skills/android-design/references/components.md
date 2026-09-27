@@ -7,7 +7,7 @@ Which component to use, how Google says to use it, and the Expressive Compose AP
 | Need | Component | Rules that matter |
 | --- | --- | --- |
 | Page title and 1 or 2 actions | App bar: search, small, medium flexible, large flexible | One action, two at most; boost the key one with a filled or tonal (optionally wide) icon button, never two filled; fills with a contrasting color on scroll, or stays transparent with filled icon buttons floating over content; flexible bars compress to small on scroll |
-| Actions or toggles for the current page, even two or three | Toolbar: floating (contextual) or docked (global) | Standard colors keep focus on content, vibrant colors emphasize controls or signal a mode like editing; never with a navigation bar on screen; floating can pair with a FAB and collapse on scroll |
+| Actions for the current page, or local navigation between related pages | Toolbar: floating (contextual) or docked (global) | Standard colors keep focus on content, vibrant colors emphasize controls or signal a mode like editing; never with a navigation bar on screen; floating can pair with a FAB and collapse on scroll |
 | The single most important action | FAB (FAB, medium, large) | One per screen; not every screen needs one; stays put on scroll; bottom half of the screen; color from primary, secondary, or tertiary sets |
 | Labeled primary action on a long scroll | Extended FAB (small, medium, large) | One per screen; not inside a set of actions; not with a floating toolbar |
 | 2 to 6 related actions behind the FAB | FAB menu | Only from a regular FAB; not with a toolbar or rail; color set matches the FAB |
@@ -81,11 +81,21 @@ Usage rules from each component's Guidelines tab on m3.material.io (quotes are G
 
 ### Toolbars
 
-- "Use a toolbar to provide actions related to the current page." Floating: "contextual actions relevant to the body content or the specific page." Docked: global actions that stay the same across pages. A small set counts (default): two or three page actions are enough for a toolbar.
-- Standard colors focus attention on the content; vibrant is "a high-emphasis color scheme that draws attention to the controls" and can signal a temporary mode such as editing.
-- Emphasize one action at most: a filled icon button, a different color role, a wide button, or a paired FAB. "Emphasize one action at a time."
-- Floating toolbars: fully on screen (overflow menu for extras), 16dp from the edges, no extra padding, no square filled icon buttons, one per compact window. Never with a navigation bar.
-- A floating toolbar can also be local navigation between related pages.
+Decide the toolbar's job by what its controls do:
+
+- **Actions for the current page** (they open something or act on the page: lyrics, queue, share, edit): "Use a toolbar to provide actions related to the current page." Fill it with icon buttons: "Icon buttons provide an even hierarchy of controls." Name each one with a plain tooltip ("Use plain tooltips to label icon-only buttons") and a content description. Controls that show and hide a panel are toggle icon buttons, so the open one shows a selected state.
+- **Local navigation** (the selection swaps the body content in place between related pages, such as Favorites, Saved, Library): "Floating toolbars can be used as tabs between related subsequent pages in the product hierarchy." Use labeled items with exactly one selected (a tonal pill), and never alongside a navigation bar: "Don't show a navigation bar and a toolbar with navigation controls at the same time."
+
+Rules for both:
+
+- Slots can hold "icon buttons, buttons, and text fields," images, or custom components, but keep one control design: "Avoid mixing too many different controls in the same toolbar."
+- Every item must read as its own control (default): labeled buttons in the toolbar's own color with nothing selected merge into one wide pill.
+- Emphasize one action at most, with a filled icon button, a different color role, a wide icon button, or a paired FAB: "Avoid emphasizing more than one action at a time." Never a bold button plus a FAB.
+- Standard colors (surface container) focus attention on the content; vibrant (primary container) "draws attention to the controls" or signals a temporary mode such as editing. Selected toggles use the toggle tonal style (secondary container in standard, surface container in vibrant).
+- Floating: horizontal on phones, only "as big as needed to hold the items inside," fully on screen with an overflow menu for extras, at least 16dp from the window edges (24dp for vertical toolbars), no square filled icon buttons. Vertical mainly on larger windows, opposite the navigation rail; on compact windows only for a simple screen with few controls. One toolbar per compact window.
+- Docked: full width at the bottom, for global actions that stay the same across pages; straight corners; replaces the bottom app bar.
+- A FAB can sit beside a floating toolbar (never an extended FAB, never a FAB menu); never with a navigation bar.
+- On scroll, stay, slide off, or collapse to one key action, but never collapse and slide off at once.
 
 ### Navigation bar and rail
 
@@ -176,7 +186,7 @@ Recurring moves in Google's showcases and well-reviewed Expressive apps. Read th
 - **Shape-masked media:** album art, avatars, and badges clipped to library shapes (Cookie, Flower, Sunny, Clover), sometimes clustered for groups.
 - **Pill hero control:** a full-width pill primary action paired with smaller round secondary buttons (Play with skip; Pause with Stop and Restart). Toggles beside it (like, shuffle, repeat) can be standard, tonal, or filled as long as their state stays clear and the main action stays distinguishable.
 - **Split action pair:** two large half-width pills in contrasting colors for a two-way decision (Snooze and Stop), or a wide pill beside a round button (Stop with Pause).
-- **Floating pill toolbar** at the bottom holding the page's actions (or local navigation), with the active item as a filled pill.
+- **Floating pill toolbar** at the bottom holding the page's actions (or local navigation), with the selected item as a tonal pill when it is local navigation.
 - **Segmented settings:** grouped list items with gaps, leading icons in tonal circles, switches with check and close thumb icons (`Switch(thumbContent = ...)`).
 - **Wavy progress** for playback and goals; circular wavy progress for countdowns.
 
