@@ -90,7 +90,7 @@ Custom `TransformationSpec` effects (rotating or morphing items at the edges) ar
 
 ## Behaviors
 
-- **Navigation:** swipe right closes the screen; no back buttons, no horizontal carousels.
+- **Navigation:** swipe right closes the screen; no back buttons. Don't mix vertical and horizontal scrolling (media playback excepted). Non-scrolling multi-page layouts can paginate vertically or horizontally.
 - **Physical buttons:** map a multifunction button only to a single-press, binary, reversible action (start/stop, play/pause) that also exists on screen. Never a destructive or multi-step action.
 - **Launch:** black background with the 48dp circular app icon centered; build the screen from static text and placeholders, not an indeterminate spinner.
 - **Ongoing activities:** the Recents entry states type and status (track, workout duration, ETA); the tile shows a glanceable summary.

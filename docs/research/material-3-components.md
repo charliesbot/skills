@@ -4,8 +4,9 @@ Per-component usage guidance from the Guidelines tab of each component on
 [m3.material.io/components](https://m3.material.io/components), plus the "M3
 Expressive update" notes from each Overview and key Accessibility points. It
 complements [material-3.md](material-3.md), which covers the foundations, the
-Expressive layer, the verified Compose API, and the full distillation of lists,
-menus, and search (not repeated here).
+Expressive layer, the verified Compose API, and short notes on lists, menus, and
+search; their full guideline distillation is in the "Lists, menus, and
+search" section below.
 
 ## Sources and status
 
@@ -71,6 +72,18 @@ Google's wording; everything else is a close paraphrase of the page.
   - XS and S buttons need a target of at least 48x48dp.
   - On Android, a label must fit within two lines at 200% text size.
   - The accessibility label matches the visible label.
+
+- **Specs (shape and toggle color):**
+  - Square button corner radius by size: XS 12dp, S 12dp, M 16dp, L 28dp, XL 28dp. Pressed radius: XS 8dp, S 8dp, M 12dp, L 16dp, XL 16dp. "Both round and square buttons should have the same pressed shape."
+  - Toggle color roles (unselected → selected):
+    - Elevated: surface container low with primary → primary with on primary.
+    - Filled: surface container with on surface variant → primary with on primary.
+    - Tonal: secondary container with on secondary container → secondary with on secondary.
+    - Outlined: outline variant outline with on surface variant → inverse surface with inverse on surface.
+  - Toggle buttons have no text style.
+  - "The elevated button style has an elevation of 1 by default and 0 when disabled."
+- **Adaptive placement example:** "Filled buttons are end-aligned below flight information in a compact window" and "start-aligned beside flight information in a large window."
+
 - **M3 Expressive changes:** added the toggle variant, the square shape, press and select shape morphs, and the XS, M, L and XL sizes. Color styles are now configurations. Small buttons use 16dp padding (24dp is "no longer recommended").
 
 ### Button groups
@@ -158,6 +171,16 @@ Google's wording; everything else is a close paraphrase of the page.
   - "Don't apply density to icon buttons by default". Offer density only as an opt-in.
   - The label describes the action (for example "Add to favorites").
   - Show a tooltip on web.
+
+- **Specs (shape and toggle color):**
+  - Square corner radius by size: XS 12dp, S 12dp, M 16dp, L 28dp, XL 28dp. Pressed radius: XS 8dp, S 8dp, M 12dp, L 16dp, XL 16dp.
+  - Toggle color roles (unselected → selected):
+    - Filled: surface container with on surface variant → primary with on primary.
+    - Tonal: secondary container with on secondary container → secondary with on secondary.
+    - Outlined: outline variant outline with on surface variant → inverse surface with inverse on surface.
+    - Standard: on surface variant icon → primary icon.
+  - Other roles are allowed if the container and icon keep 3:1 contrast (for example tertiary and on tertiary).
+
 - **M3 Expressive changes:** added the XS, M, L and XL sizes, the narrow and wide widths, the square shape and the shape morphs. Color styles are now configurations. Icon buttons inside button groups now interact with each other.
 
 ### FAB
@@ -201,6 +224,9 @@ Google's wording; everything else is a close paraphrase of the page.
   - Prioritize the FAB in focus order.
   - Don't fully hide another element's focus indicator.
   - The label describes the action ("Compose a new message").
+
+- **State layer:** "When using a non-default color mapping for FABs, make sure the state layer color is the same as the icon color." (The extended FAB spec says the same.)
+
 - **M3 Expressive changes:** added the medium FAB. The small FAB and surface FABs are no longer recommended. Variants are now based on size, not color. Added the primary, secondary and tertiary styles, and renamed the old styles to "container".
 
 ### Extended FAB
@@ -295,6 +321,13 @@ Google's wording; everything else is a close paraphrase of the page.
   - DO: "Use filled icons for clear, visible actions"
   - CAUTION: "Outlined icons can be used as needed, or when using toggle buttons"
 - **Accessibility:** Initial focus lands on the leading button. Tab moves between items; Space or Enter activates. The title's label matches its text, with context added if needed. Actions stay accessible when content scrolls. Search bar and label keep at least 3:1 contrast.
+
+- **Subtitle and chip row:**
+  - Subtitle type: small Label medium, medium flexible Label large, large flexible Title medium.
+  - Subtitles are leading-aligned or center-aligned with the headline. Medium and large flexible bars hug their text, so they get taller when a subtitle shows.
+  - "Avoid customizing the size of the heading and subtitle, or adding too many actions."
+  - App bars "Can animate on and off screen with another bar of controls, like a row of chips."
+
 - **M3 Expressive changes:** Renamed from "top app bar" to "app bar". Adds the search app bar. Medium flexible and large flexible replace medium and large, with reduced height, larger titles, a subtitle, left or center alignment, text wrapping, and room for images and filled buttons. Small gains a subtitle, centered text (center-aligned is merged into small), and images or filled buttons.
 
 ### Toolbars
@@ -472,6 +505,18 @@ None of the six source files has an "M3 Expressive update" section. Their Overvi
   - Labels announce the current item and the total.
   - Reduced motion removes parallax and makes all items the same size.
 
+- **Item text and sizing:**
+  - "Text should always be understandable at each size. Consider adapting the text to use brief labels on smaller carousel items." The large item shows the full title and label, the medium item hides the title, and the small item abbreviates the label.
+  - A center-aligned hero "adds an additional previewed item on the leading edge, making the large carousel item centered" (two small items around a centered large item).
+  - The large item's max width is adjustable. "When the large item's max width is narrow enough, more items can be shown on screen at once. At compact breakpoints, this is only recommended for carousels with simple imagery."
+
+- **Choosing by task (research):** two factors decided which carousel users wanted:
+  - "a deep browse versus grabbing a quick item" (news headlines vs recipe images)
+  - "the weight of the commitment" (a movie means two hours of watching)
+  - The "multi-swipe option with previews" helped with "grabbing an item and making a quick, non-critical decision." For a big decision, participants "wouldn't want to swipe through too much content at once, or to do so too quickly."
+- Users were less certain how many items a vertical carousel or a hero (single very large item) carousel held. Horizontal single-advance and multi-advance variants did not have this problem.
+- **Compose:** shape and outline items with `maskClip` and `maskBorder` (on `CarouselItemScope`), not `clip` and `border`. Plain `clip` clips the item statically and drops the parallax effect.
+
 ### Dialogs
 - **Use when / avoid when:**
   - Use for "critical information that requires a specific user task, decision, or acknowledgement." Use them "sparingly."
@@ -502,6 +547,15 @@ None of the six source files has an "M3 Expressive update" section. Their Overvi
   - Headlines must fit 4 lines at 200% text size.
   - On web, basic dialogs use the "alert dialog" role.
 
+- **Full-screen confirm, dismiss and errors:**
+  - Label the confirmation by its outcome: "The confirmation action should be clear about what happens next, like **Send** or **Create**. Avoid using vague terms like **Done**, **OK**, or **Close**."
+  - "Don't disable the confirmation button" in a full-screen dialog. This differs from basic dialogs, where confirming is disabled until a choice is made. "Only trigger an additional basic dialog if the action fails."
+  - "When someone dismisses a full-screen dialog, a basic dialog should appear to confirm that they want to discard the unsaved changes" (keep editing or discard).
+  - Close with the close icon or a dismissive action (Cancel, Back), and save with **Save**.
+  - Errors say the source and how to fix it. "Show all errors on the page at once so people can fix everything before trying again." Field errors go inline. Add errors next to checkboxes and radio buttons, which have no built-in error text.
+  - Instead of a third "Learn more" action, "an inline expansion can display more information. If more extensive information is needed, provide it prior to entering the dialog."
+  - A full-screen dialog resets perceived elevation, so menus or dialogs over it cover the screen rather than floating.
+
 ### Bottom sheets
 - **Use when / avoid when:** Use for supplementary (not main) content and actions at compact and medium breakpoints.
 - **Variants and how to choose:**
@@ -510,6 +564,7 @@ None of the six source files has an "M3 Expressive update" section. Their Overvi
 - **Emphasis and color:** Surface container low, 28dp top corners. On Android, the system handles the scrim.
 - **Layout and placement:**
   - Full width up to 640dp. Above 640dp, 56dp top and side margins.
+  - Top margin 72dp at 640dp and below (the sheet never covers the top of the screen); drag handle centered with 22dp padding above and below.
   - A modal sheet's initial height is capped at 50% of the screen.
   - Show a close affordance when full-screen. A full-height standard sheet shows a collapse icon.
 - **Behavior (scroll, adaptive, motion):**
@@ -542,6 +597,11 @@ None of the six source files has an "M3 Expressive update" section. Their Overvi
   - DO "Side sheets can vertically scroll internally." DON'T "Don't allow horizontal scrolling or lay out the side sheet in a way that suggests horizontal scrolling."
   - DO "A close icon button makes the side sheet easy to dismiss." DON'T omit it: "people can't predict the opening and closing flow."
 - **Accessibility:** "Material requires that a close affordance... is always present." Role: Dialog.
+
+- **Back and close affordances:**
+  - Side sheets "can contain a back icon for navigation" (optional, at the upper leading corner) to exit or move to a different experience within the sheet. Because the main content stays visible, give people affordances for leaving the sheet.
+  - The close icon button (upper trailing corner) "is highly recommended, increases accessibility, and makes focused side sheets easier to close."
+  - Predictive back also scales the sheet and its content in the direction of the gesture and previews the previous screen.
 
 ### Divider
 - **Use when / avoid when:**
@@ -631,6 +691,162 @@ None of the six source files has an "M3 Expressive update" section. Their Overvi
 
 Notes: chips, checkbox, radio button, switch and text fields have no M3 Expressive section in the source. The checkbox page's keyboard table is a copy of the chips table (source error), so it was omitted.
 
+## Lists, menus, and search
+
+Source: m3.material.io scrapes of lists, menus and search (Overview, Specs, Guidelines, Accessibility). All three have an M3 Expressive update: expressive lists (December 2025), vertical menus (November 2025) and contained search (February 2025). In each case the baseline version is still available but not recommended for new designs.
+
+### Lists
+- **Use when / avoid when:**
+  - "Use lists to help people find a specific item and act on it". Lists are "vertical groups of text, icons, images, and other elements, optimized for reading comprehension". Use them "for communicating or selecting discrete items, such as choosing from a set of colors."
+  - Order items logically (alphabetical, numerical), keep items short and easy to scan, and show icons, text and actions in a consistent format.
+  - Non-interactive lists organize information for scanning. They "don't perform any actions and can't be selected."
+- **Variants and how to choose:**
+  - Expressive list: "Recommended for new designs". It adds the standard or segmented style, highlighted selection states and flexible slots. The baseline list is "Not recommended. Use expressive lists instead." It has square corners and lacks the new selection treatment and slots.
+  - Styles: standard and segmented "are a visual choice, and don't affect a list's behavior."
+  - Selection modes: single-action, multi-action, single-select, multi-select. "A list can have only one selection mode at a time". For example, a single-action list can change to a multi-select list, "but can't be both at once."
+    - Single-action: "the entire list item performs one action, such as navigating to a new page". These items "Can't have secondary nested actions" and "Can't be toggled into a persistent selected state".
+    - Multi-action: "The primary action should take up the majority of the space in the leading and content positions. Place supplementary actions, like a bookmark or menu, in the trailing position."
+    - Single-select (for example with radio buttons): items "Don't support multi-actions; Can't have secondary nested actions; Shouldn't use checkboxes".
+    - Multi-select: items "Pair well with checkboxes and switches; Can't have secondary nested actions; Shouldn't use radio buttons".
+  - Selection controls go at the leading or trailing end: checkboxes to select multiple items, switches to toggle settings, radio buttons to select a single item.
+  - Interactions: expand and collapse, and swipe to reveal (swipe is "only available on Android Views").
+- **Emphasis and color:**
+  - Color roles: surface; on surface for label text; on surface variant for the other text and icons; outline variant for dividers; primary container and on primary container.
+  - "The selected state applies to the entire list item": when an item with a checkbox is selected, both the item and the checkbox show a selected state.
+  - With a leading image, "consider customizing the container color to use a content-based color scheme", applied to the enabled state or to an interaction.
+- **Layout and placement:**
+  - Anatomy: container and label text are required. Optional elements are overline, supporting text, trailing text, trailing icon, trailing selection control, divider, leading avatar, leading icon, and leading image or video.
+  - Height: "The tallest element within a list item determines the list item's height: either 56dp, 72dp, or 88dp." Elements are middle-aligned in most cases. They are top-aligned when the item is 88dp or taller, or has three or more lines of text.
+  - Baseline measurements: 16dp leading padding, 16dp between the content and the trailing element, 24dp trailing padding, 48dp targets. Inset dividers use 16dp left and 24dp right padding.
+  - Text: "Keep label text brief." "Limit supporting text to one to three lines" and truncate it depending on screen size. Label and supporting text can wrap or truncate.
+  - Keep visuals and primary text in the same position in every item: "Don't vary the position of elements within a list." Anchor media to the leading edge.
+  - Use circular or expressive-shaped avatars for a person or entity, and square or rectangular images for products or videos.
+  - A leading icon relates to the label. A trailing icon shows status or an action such as **Show more**. Trailing text holds meta-information such as a price, count or date.
+  - Slots: an item is a leading slot, a content slot and a trailing slot. "The leading and trailing slot positions must be a smaller width than the content section", and the content slot is the largest, in the middle.
+    - Leading slots hold a visual (avatar, icon, image, video thumbnail), a selection control, or a badge or larger image.
+    - Trailing slots hold an icon, an icon button, trailing text or a selection control.
+    - Slots "are not accessible by default": follow list rules and structure, "Use standard list item padding", use targets of at least 48x48dp, and don't add interactive elements that make the item hard to navigate.
+    - "For selection lists, use only one selection interaction per list item" (for example, not a checkmark plus a trailing bookmark).
+  - Gaps and dividers: "Use **gaps** for contained lists." "Limit **dividers** to uncontained or complex lists, only when a stronger visual separation is necessary."
+- **Behavior (scroll, adaptive, motion):**
+  - Compact: "Lists should extend edge-to-edge in compact windows. Selecting a list item should open a page with the details."
+  - Medium and expanded: show the list and its detail side by side (list-detail).
+  - At larger breakpoints, adjust margins, spacing or density. Reveal more content such as supporting text and larger imagery, or split into a multi-column layout.
+  - Consider swapping the list for cards, or transforming it into a carousel, when there is space.
+  - Line length: ideally 40 to 60 characters, up to 120 on large screens. Near 120, increase line height. Adjust margins instead of letting lines stretch.
+  - Expand and collapse: a parent item expands "in a folder-like manner" using a container transform.
+  - Swipe (Android): mix button styles. "The primary action must be the final end-aligned option. A full swipe triggers this action, clearing the list item and all other actions off-screen." Swipeable items need another way to reach the hidden actions, such as a more icon.
+  - Shape morph (expressive): unselected items have a 4dp inner and 16dp outer corner radius, and a selected item has 16dp all around.
+- **Do / Don't:**
+  - DO: "Place supporting visuals, like thumbnails, at the leading edge of a row to improve scannability"
+  - CAUTION: "Avoid placing visuals in the center of a row because it makes the list difficult to scan"
+  - DO: "Use only one selection interaction per list item"
+  - DON'T: "Don't use multiple selection interactions in one item"
+  - DO: "Use **segmented gaps** and filled list items to define a list group"
+  - CAUTION: "Limit the use of **dividers** to uncontained lists"
+  - DO: "Adjust margins to create a more comfortable line length for reading"
+  - DON'T: "Don't scale components without adjusting other affected areas of the screen, such as text length."
+  - CAUTION: "Reserve the use of slots for use cases that maintain the list's accessibility and functionality"
+- **Accessibility:**
+  - Don't rely on color alone for selection. Add a radio button or checkbox, a leading or trailing icon, or a non-color style. The example uses "a leading checkmark and filled color".
+  - Focus: "The first element in a list should always receive focus, unless the list has a selected element", in which case focus goes to the selected item. Arrow keys move through the list and wrap at both ends. Space or Enter activates.
+  - In multi-action lists, "The list item as a whole isn't selectable; only the individual actions are." Tab focuses the first element, all four arrow keys move between focusable elements across items, and Space or Enter activates.
+  - The label is "typically the same as the **label text** and **supporting text**."
+  - Roles: single-select items are Radio button and multi-select items are Checkbox, with the state Checked or Not-checked. "On Jetpack Compose, the role applies to the list item as a whole." On Android Views the label and role go on the contained checkbox or radio button. On web the container is a List box, its label describes the selection type, and items are Option. "If a list isn't selectable, the label text is read out without a role."
+  - Swipe alternatives: single tap, double tap, long press or another single-pointer interaction (for example a more button).
+- **M3 Expressive changes:** added the expressive list (December 2025, Android Views and Compose) with the segmented style, highlighted selection states, selection shape morph and flexible slots. The baseline list is not recommended.
+
+### Menus
+- **Use when / avoid when:**
+  - "Use a menu to show a temporary set of actions. To show actions on screen at all times, use a toolbar instead."
+  - "A menu takes up less space than a set of radio buttons or chips."
+  - Uses: overflow menus, text field dropdown menus, select menus and context menus.
+  - Menus open from icon buttons, buttons, split buttons, text fields, filter chips, and selected text or images. They also open on a specific action such as right-click or press-and-hold.
+  - Context menus provide actions for a specific item and open with a secondary click (right-click, or a two-finger tap on a trackpad).
+- **Variants and how to choose:**
+  - Vertical menus (November 2025) are "recommended for new designs", with rounded corners, standard and vibrant color styles, more selection states and submenu motion. The baseline menu is still available.
+  - Layout is standard or grouped. Selection is single-select (choosing a new item unselects the previous one) or multi-select ("They stay open until the person dismisses the menu").
+- **Emphasis and color:**
+  - Standard is surface-based and lower emphasis. Vibrant is tertiary-based and higher emphasis: "Vibrant menus are more prominent so should be used sparingly."
+  - Standard roles: surface container low container, on surface text, on surface variant for icons and supporting text. The selected item is tertiary container with on tertiary container.
+  - Vibrant roles: tertiary container container, on tertiary container for content and the state layer. The selected item is tertiary with on tertiary.
+  - Baseline menu: surface container, 4dp corners, 112dp min to 280dp max width, 48dp items, 24dp icons.
+- **Layout and placement:**
+  - Anatomy: menu item, menu item text, container, and optional leading icon, trailing icon, badge, trailing text, supporting text, label text, gap and divider.
+  - "When a menu item can only be used under specific conditions, it should appear disabled rather than be removed."
+  - Placement: below, next to or in front of the element that opens it. "If a menu is in a position to be cut off, it should automatically reposition to appear to the left, right, or above the element that generates it." A menu opened at the top of the screen expands downward.
+  - Submenus "should open next to the parent menu item without overlapping it" and are "best used on large screens where there's space". The site says submenus "are not currently available on Jetpack Compose"; the Compose source supports them by nesting `DropdownMenuPopup` (see material-3.md).
+  - Gaps group items and are more expressive than dividers. "Avoid changing the size of the gap", "Limit the number of gaps in a menu to one or two", and "Don't use gaps in scrollable menus". Gaps aren't available on web.
+  - Use dividers for scrollable menus, for text field dropdowns where grouping isn't appropriate, and on web.
+  - Slots suit simple content such as images, progress indicators and color swatches. Keep the same item padding and 48x48dp targets. "Don't add buttons, switches, or other direct actions into the menu item. Nested elements should only perform one action."
+- **Behavior (scroll, adaptive, motion):**
+  - Compact: "Consider adapting menus into bottom sheets on small screens", which fit more items and longer labels.
+  - Medium and expanded: menus work best in context with the content, and can show more items and use submenus.
+  - Motion: an enter and exit transition ties the menu to its trigger. "In dense products, such as on desktop, menus can open instantly to reduce motion."
+  - The trigger: "the corresponding button or icon button should remain the same visually, with the addition of a pressed state", even when the menu opens from a keyboard shortcut.
+  - Filtering (autocomplete): a text field filters the options as the person types, and items ease into their new positions.
+  - Scrolling: "Menus can scroll when all menu items can't display at once. In this state, menus show a persistent scrollbar."
+  - Submenu focus: the focused submenu's corners become more rounded and the unfocused one becomes less rounded.
+  - Density levels apply on web only.
+- **Do / Don't:**
+  - CAUTION: "Reserve the use of slots for use cases that maintain the menu's accessibility and functionality"
+  - DO: "Disabled menu items can receive focus"
+  - DON'T: "A divider or gap can't receive focus"
+- **Accessibility:**
+  - Selected items change shape and color by default, with 3:1 contrast between selected and unselected. "It's recommended to include another visual cue, like a checkmark".
+  - "When a menu opens, focus should be placed on the first menu item."
+  - Exit by selecting an option, pressing Escape, tapping outside the menu, or using system back. Where focus goes after closing depends on the app.
+  - Keys:
+    - Space or Enter opens a closed menu or submenu, and selects an item in an open one.
+    - Up and Down open a closed menu and move between items in an open one.
+    - Left and Right open or close a submenu.
+    - Letters jump to the next item starting with that letter. Escape closes.
+  - "Disabled menu items can receive focus but aren't selectable. Dividers and gaps can't receive focus."
+  - The label equals the item text. The role is "Generic actionable element" on Android Views and Compose, and "Menu item" on web. An icon next to text is marked decorative.
+- **M3 Expressive changes:** added vertical menus (November 2025) with new shapes, the standard and vibrant color styles, selection states, refined submenu motion, and gaps on Android. The baseline menu is still available.
+
+### Search
+- **Use when / avoid when:**
+  - Use search "for products with many items to manage, such as files or messages."
+  - Pick the entry point by importance:
+    - Search bar: "to search contents in a specific view, like **Search your messages**", placed below a title.
+    - Search app bar: "when search is the primary, global function".
+    - Search icon button: "when search is a secondary action or not the main focus".
+  - "If search is the primary action, focused search can be a standalone destination reached from a navigation bar."
+- **Variants and how to choose:**
+  - One component, "search", covers the former search bar and search view.
+  - Styles: contained ("recommended"), where a filled container separates the bar from its suggestions or results; and divided (baseline), which uses a divider and is "Not recommended. Use contained."
+  - Focused layouts: "**Docked** opens a list below the search bar, with a scrim covering main content"; "**Full-screen** expands to fill the screen".
+- **Emphasis and color:**
+  - "Search bars use the **surface container high** color role", for contrast on white or tonal surface backgrounds.
+  - Avoid a surface container high bar on a surface container background. "Use surface container roles that are more than one step apart."
+  - The full-screen layout background is surface container low with a surface container high bar. The docked layout uses surface container high. Input text is on surface, and icons and hint text are on surface variant.
+- **Layout and placement:**
+  - Usually at the top of the screen or content. The bar is 56dp tall, 360dp min to 720dp max wide, with start-aligned text and a 30dp avatar.
+  - Margins are 24dp unfocused and 12dp focused. The contained container "remains the same shape in both the unfocused and focused states. Avoid changing the container behavior."
+  - The docked results container is 360 to 720dp wide and 240dp min to "2/3 of screen height" max. Full-screen fills the screen.
+  - Leading slot: "either: A navigational icon button, such as a menu or arrow; A non-functional search icon".
+  - Trailing slot: "one or two trailing icons or icon buttons", such as voice search, a separate high-level action (current location, profile), an overflow menu or a decorative search icon. "Combine an avatar with up to one other trailing icon button". Focused search can show an optional clear icon.
+  - Hint text is a short description of what can be searched ("Search replies", "Search your messages"). Typing replaces it.
+  - Suggestions and results use the list component. "Consider adding variety and context": leading icons, category labels (**Recent**, **Contacts**, **Suggestions**), avatars or other high-priority items, and filter chips. Use gaps to separate groups.
+- **Behavior (scroll, adaptive, motion):**
+  - Adaptive: the bar should "Stay in its pane and scale in width accordingly", keep its internal elements anchored to both sides, and stay close to the content it searches.
+  - Focused layouts: "Full-screen layout: Default for compact breakpoints". Docked is "Best for medium and expanded windows". Swap from full-screen to docked as the window grows.
+  - Focused search can show history before typing, show suggestions or results while typing, or wait until a query is submitted.
+  - "The **back** icon releases focus, dismisses any suggestions or results, and returns the search bar to its original state."
+  - Search runs on Enter, or when the person selects a suggestion or result. Results scroll beneath the bar. "When search results are queried, the input text should remain visible, but not in focus."
+  - "Focused search needs a clear status indicator that it's searching content, like a search icon or **Results** label" (for example "Quick results").
+  - Scroll: the bar can scroll away and reappear when scrolling back, or stay fixed at the top.
+  - Predictive back (Android): search "detaches from the screen edge to signal the full-screen layout will minimize" and previews the previous screen.
+  - Expressive motion: the bar grows wider when focused.
+- **Accessibility:**
+  - "When search suggestions and results appear, the screen reader must announce the change."
+  - Initial focus lands on the first interactive element, usually the leading icon button, or on the text field if there's no leading icon.
+  - Tab or Shift+Tab moves between elements, Space or Enter activates the field, and arrow keys move between results.
+  - "The hinted search text should be used as the accessibility label". The input role is **Text field** on Android. Label icon buttons by their own guidance.
+  - Results use list semantics, and screen readers announce them as a list.
+- **M3 Expressive changes:** (February 2025, Jetpack Compose) search bar and search view renamed to "search". Adds the contained style (recommended) and gaps to group results, and the bar grows wider when focused. The divided style is no longer recommended.
+
 ## Communication and pickers
 
 Source: m3.material.io scrapes (Overview, Specs, Guidelines, Accessibility). Only loading indicator and progress indicators have an "M3 Expressive update" section. The other five list only "Differences from M2", so they have no M3 Expressive heading below.
@@ -705,6 +921,9 @@ Source: m3.material.io scrapes (Overview, Specs, Guidelines, Accessibility). Onl
   - The indicator needs 3:1 contrast. The container does not.
   - Pull-to-refresh needs a single-pointer alternative, for example a refresh action in the app bar or a menu.
   - Use the "progress bar" role with a label like "refreshing page".
+
+- **Pull-to-refresh placement:** use it "at the beginning of lists, grid lists, and card collections where the most recent content appears." The indicator "can appear on top of the content or adjacent to it." Offer the single-pointer refresh "in a menu or directly alongside the content", for example in the app bar.
+
 - **M3 Expressive changes:** New component (May 2025) for waits "under five seconds." It "should replace most uses of the indeterminate circular progress indicator." It can be contained or uncontained, "use shape and motion to capture attention," and can scale in size.
 
 ### Progress indicators
@@ -792,6 +1011,11 @@ Source: m3.material.io scrapes (Overview, Specs, Guidelines, Accessibility). Onl
   - Announce it politely. Don't move or trap focus.
   - Esc dismisses the snackbar when it has focus.
 
+- **Focus exit:**
+  - Focus should "return to the element that triggered the snackbar, or go to the next most logical element on the page." "On Android Compose, focus may move to the nearest visible element, or to the first actionable item on the page."
+  - On web, provide a documented shortcut (such as Alt+G) to reach an actionable snackbar.
+  - A snackbar shown at app launch is announced after the page title and doesn't take focus.
+
 ### Tooltips
 - **Use when / avoid when:**
   - A tooltip adds context to a UI element.
@@ -866,6 +1090,19 @@ Source: m3.material.io scrapes (Overview, Specs, Guidelines, Accessibility). Onl
   - Dates need 4.5:1 contrast.
   - Screen readers announce the full date.
 
+- **Accessibility (text entry and labeling):**
+  - The text field label states the purpose ("event date", "reservation date") and "should match the placeholder text when the field is empty."
+  - Helper text states the date format, for example MM/DD/YYYY or YYYY/MM/DD (default "MM/DD/YYYY"), and acts as the field's description.
+  - "The calendar icon is the exclusive entry point for the date picker", and "Each input is a separate tab stop". This keeps the picker optional for keyboard and screen reader users.
+  - The modal picker offers date input through the edit icon. The docked picker uses its text field.
+  - Keys:
+    - Page up/down moves to the same date in the next or previous month, and Shift+Page up/down to the same date in the next or previous year.
+    - Home/End go to the first day of the month (as the page states).
+    - Shift+M opens the month dropdown and Shift+Y the year dropdown. Enter closes the calendar and saves.
+  - Include the shortcut in the tooltip and the hint description.
+  - Weekday headers aren't focusable, and their full-name tooltip shows only on hover.
+  - Roles: previous and next month or year are Button, the month and year dropdowns are Button, weekdays are column headers, and the month grid is Grid.
+
 ### Time pickers
 - **Use when / avoid when:**
   - Time pickers are modal and "cover the main content." Use them for alarms and meetings.
@@ -895,3 +1132,9 @@ Source: m3.material.io scrapes (Overview, Specs, Guidelines, Accessibility). Onl
   - 48x48dp dial targets.
   - The dial reads "Hour 7 of 12".
   - AM/PM uses the radio button role.
+
+- **24-hour default (research):** "Even participants who currently use 24 hour clocks found all 24 hour analog designs unfamiliar and confusing." "An overwhelming majority of participants perceived a simple digital input as the least confusing and indeed made fewer errors."
+  - Material's resulting direction: "digital input by default for 24hr users" with the dual-ring analog dial as an option.
+  - Remember the user's choice: switching to the analog clock makes it the default next time.
+  - With digital input, still make clear whether it is a 12h or 24h clock.
+
