@@ -67,6 +67,8 @@ val scheme = rememberDynamicColorScheme(seedColor = seed, isDark = isSystemInDar
 MaterialExpressiveTheme(colorScheme = scheme) { NowPlaying(...) }
 ```
 
+A nested theme changes `MaterialTheme.colorScheme` but not `LocalContentColor`, so plain `Icon` and `Text` keep the outer scheme's color (black icons on a dark player). Draw the themed subtree inside a `Surface(color = MaterialTheme.colorScheme.surface)`, which sets the matching content color.
+
 Decode a small thumbnail for extraction, not the full image. MaterialKolor 5.x is built with Kotlin 2.4; if it fails to resolve against your Kotlin or Compose versions, pin the latest version that does (4.x for older Kotlin).
 
 ### Roles
